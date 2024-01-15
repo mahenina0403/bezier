@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "HornBez.h"
 
 double PolynomialHornBez(vector<double> values, int n, double t){
@@ -12,17 +10,16 @@ double PolynomialHornBez(vector<double> values, int n, double t){
 	s = 1-t;
 	tk = 1;
 	b = 1;
-	N = values[0];
+	N = values[n]*s;
 
 	for (int i=1; i<n; i++){
 		tk = tk*t;
-		b = b * (n-1+i)/i;
-		N = (N+b*tk*values[i])*s;
-		// cout << "here" << endl;
+		b = b * (n+1-i)/i;
+		N = (N+b*tk*values[n-i])*s;
 	}
 	if (n > 0){
 		tk = tk*t;
-		N = N + tk*values[n];
+		N = N + tk*values[0];
 	}
 
 	return N;
@@ -37,6 +34,5 @@ double RationalHornBez(vector<double> values, vector<double> weights, int n, dou
 	double numerator = PolynomialHornBez(R, n, t);
 	double denominator = PolynomialHornBez(weights, n, t);
 
-	// cout << numerator << ", " << denominator << endl;
 	return numerator/denominator;
 }

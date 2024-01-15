@@ -10,7 +10,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/mahenina/Documents/GitHub/bezier/src/HornBez.cpp" "CMakeFiles/compare.dir/src/HornBez.cpp.o" "gcc" "CMakeFiles/compare.dir/src/HornBez.cpp.o.d"
   "/home/mahenina/Documents/GitHub/bezier/src/VS.cpp" "CMakeFiles/compare.dir/src/VS.cpp.o" "gcc" "CMakeFiles/compare.dir/src/VS.cpp.o.d"
+  "/home/mahenina/Documents/GitHub/bezier/src/barycentric.cpp" "CMakeFiles/compare.dir/src/barycentric.cpp.o" "gcc" "CMakeFiles/compare.dir/src/barycentric.cpp.o.d"
   "/home/mahenina/Documents/GitHub/bezier/src/deCasteljau.cpp" "CMakeFiles/compare.dir/src/deCasteljau.cpp.o" "gcc" "CMakeFiles/compare.dir/src/deCasteljau.cpp.o.d"
+  "/home/mahenina/Documents/GitHub/bezier/src/lader.cpp" "CMakeFiles/compare.dir/src/lader.cpp.o" "gcc" "CMakeFiles/compare.dir/src/lader.cpp.o.d"
+  "/home/mahenina/Documents/GitHub/bezier/src/linearGeometric.cpp" "CMakeFiles/compare.dir/src/linearGeometric.cpp.o" "gcc" "CMakeFiles/compare.dir/src/linearGeometric.cpp.o.d"
   "/home/mahenina/Documents/GitHub/bezier/src/main.cpp" "CMakeFiles/compare.dir/src/main.cpp.o" "gcc" "CMakeFiles/compare.dir/src/main.cpp.o.d"
   )
 

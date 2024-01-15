@@ -179,6 +179,9 @@ CMakeFiles/compare.dir/src/main.cpp.o: \
  /home/mahenina/Documents/GitHub/bezier/include/deCasteljau.h \
  /home/mahenina/Documents/GitHub/bezier/include/VS.h \
  /home/mahenina/Documents/GitHub/bezier/include/HornBez.h \
+ /home/mahenina/Documents/GitHub/bezier/include/lader.h \
+ /home/mahenina/Documents/GitHub/bezier/include/linearGeometric.h \
+ /home/mahenina/Documents/GitHub/bezier/include/barycentric.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h \
  /usr/include/c++/11/cassert /usr/include/assert.h \
  /usr/include/c++/11/cfloat \

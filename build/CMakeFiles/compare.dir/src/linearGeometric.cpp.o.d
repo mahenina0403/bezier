@@ -1,7 +1,7 @@
-CMakeFiles/compare.dir/src/HornBez.cpp.o: \
- /home/mahenina/Documents/GitHub/bezier/src/HornBez.cpp \
+CMakeFiles/compare.dir/src/linearGeometric.cpp.o: \
+ /home/mahenina/Documents/GitHub/bezier/src/linearGeometric.cpp \
  /usr/include/stdc-predef.h \
- /home/mahenina/Documents/GitHub/bezier/include/HornBez.h \
+ /home/mahenina/Documents/GitHub/bezier/include/linearGeometric.h \
  /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \

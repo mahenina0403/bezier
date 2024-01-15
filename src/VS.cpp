@@ -9,19 +9,19 @@ double VS(vector<double> values, int n, double t){
 	if (t < 1/2){
 		s  = t/(1-t);
 		b = 1;
-		N = values[n];
+		N = values[0];
 		for (int i=1; i<=n; i++){
 			b = b * (n-i+1)/i;
-			N = N*s + b * values[n-i];
+			N = N*s + b * values[i];
 		}
 	}
 	else{
 		s  = (1-t)/t;
 		b = 1;
-		N = values[0];
+		N = values[n];
 		for (int i=1; i<=n; i++){
 			b = b * (n-i+1)/i;
-			N = N*s + b * values[i];
+			N = N*s + b * values[n-i];
 		}
 	}
 

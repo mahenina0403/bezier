@@ -97,10 +97,24 @@ CMakeFiles/compare.dir/src/VS.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compare.dir/src/VS.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahenina/Documents/GitHub/bezier/src/VS.cpp -o CMakeFiles/compare.dir/src/VS.cpp.s
 
+CMakeFiles/compare.dir/src/barycentric.cpp.o: CMakeFiles/compare.dir/flags.make
+CMakeFiles/compare.dir/src/barycentric.cpp.o: ../src/barycentric.cpp
+CMakeFiles/compare.dir/src/barycentric.cpp.o: CMakeFiles/compare.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/compare.dir/src/barycentric.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compare.dir/src/barycentric.cpp.o -MF CMakeFiles/compare.dir/src/barycentric.cpp.o.d -o CMakeFiles/compare.dir/src/barycentric.cpp.o -c /home/mahenina/Documents/GitHub/bezier/src/barycentric.cpp
+
+CMakeFiles/compare.dir/src/barycentric.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/compare.dir/src/barycentric.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mahenina/Documents/GitHub/bezier/src/barycentric.cpp > CMakeFiles/compare.dir/src/barycentric.cpp.i
+
+CMakeFiles/compare.dir/src/barycentric.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compare.dir/src/barycentric.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahenina/Documents/GitHub/bezier/src/barycentric.cpp -o CMakeFiles/compare.dir/src/barycentric.cpp.s
+
 CMakeFiles/compare.dir/src/deCasteljau.cpp.o: CMakeFiles/compare.dir/flags.make
 CMakeFiles/compare.dir/src/deCasteljau.cpp.o: ../src/deCasteljau.cpp
 CMakeFiles/compare.dir/src/deCasteljau.cpp.o: CMakeFiles/compare.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/compare.dir/src/deCasteljau.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/compare.dir/src/deCasteljau.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compare.dir/src/deCasteljau.cpp.o -MF CMakeFiles/compare.dir/src/deCasteljau.cpp.o.d -o CMakeFiles/compare.dir/src/deCasteljau.cpp.o -c /home/mahenina/Documents/GitHub/bezier/src/deCasteljau.cpp
 
 CMakeFiles/compare.dir/src/deCasteljau.cpp.i: cmake_force
@@ -111,10 +125,38 @@ CMakeFiles/compare.dir/src/deCasteljau.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compare.dir/src/deCasteljau.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahenina/Documents/GitHub/bezier/src/deCasteljau.cpp -o CMakeFiles/compare.dir/src/deCasteljau.cpp.s
 
+CMakeFiles/compare.dir/src/lader.cpp.o: CMakeFiles/compare.dir/flags.make
+CMakeFiles/compare.dir/src/lader.cpp.o: ../src/lader.cpp
+CMakeFiles/compare.dir/src/lader.cpp.o: CMakeFiles/compare.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/compare.dir/src/lader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compare.dir/src/lader.cpp.o -MF CMakeFiles/compare.dir/src/lader.cpp.o.d -o CMakeFiles/compare.dir/src/lader.cpp.o -c /home/mahenina/Documents/GitHub/bezier/src/lader.cpp
+
+CMakeFiles/compare.dir/src/lader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/compare.dir/src/lader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mahenina/Documents/GitHub/bezier/src/lader.cpp > CMakeFiles/compare.dir/src/lader.cpp.i
+
+CMakeFiles/compare.dir/src/lader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compare.dir/src/lader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahenina/Documents/GitHub/bezier/src/lader.cpp -o CMakeFiles/compare.dir/src/lader.cpp.s
+
+CMakeFiles/compare.dir/src/linearGeometric.cpp.o: CMakeFiles/compare.dir/flags.make
+CMakeFiles/compare.dir/src/linearGeometric.cpp.o: ../src/linearGeometric.cpp
+CMakeFiles/compare.dir/src/linearGeometric.cpp.o: CMakeFiles/compare.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/compare.dir/src/linearGeometric.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compare.dir/src/linearGeometric.cpp.o -MF CMakeFiles/compare.dir/src/linearGeometric.cpp.o.d -o CMakeFiles/compare.dir/src/linearGeometric.cpp.o -c /home/mahenina/Documents/GitHub/bezier/src/linearGeometric.cpp
+
+CMakeFiles/compare.dir/src/linearGeometric.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/compare.dir/src/linearGeometric.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mahenina/Documents/GitHub/bezier/src/linearGeometric.cpp > CMakeFiles/compare.dir/src/linearGeometric.cpp.i
+
+CMakeFiles/compare.dir/src/linearGeometric.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/compare.dir/src/linearGeometric.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mahenina/Documents/GitHub/bezier/src/linearGeometric.cpp -o CMakeFiles/compare.dir/src/linearGeometric.cpp.s
+
 CMakeFiles/compare.dir/src/main.cpp.o: CMakeFiles/compare.dir/flags.make
 CMakeFiles/compare.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/compare.dir/src/main.cpp.o: CMakeFiles/compare.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/compare.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/compare.dir/src/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/compare.dir/src/main.cpp.o -MF CMakeFiles/compare.dir/src/main.cpp.o.d -o CMakeFiles/compare.dir/src/main.cpp.o -c /home/mahenina/Documents/GitHub/bezier/src/main.cpp
 
 CMakeFiles/compare.dir/src/main.cpp.i: cmake_force
@@ -129,7 +171,10 @@ CMakeFiles/compare.dir/src/main.cpp.s: cmake_force
 compare_OBJECTS = \
 "CMakeFiles/compare.dir/src/HornBez.cpp.o" \
 "CMakeFiles/compare.dir/src/VS.cpp.o" \
+"CMakeFiles/compare.dir/src/barycentric.cpp.o" \
 "CMakeFiles/compare.dir/src/deCasteljau.cpp.o" \
+"CMakeFiles/compare.dir/src/lader.cpp.o" \
+"CMakeFiles/compare.dir/src/linearGeometric.cpp.o" \
 "CMakeFiles/compare.dir/src/main.cpp.o"
 
 # External object files for target compare
@@ -137,11 +182,14 @@ compare_EXTERNAL_OBJECTS =
 
 compare: CMakeFiles/compare.dir/src/HornBez.cpp.o
 compare: CMakeFiles/compare.dir/src/VS.cpp.o
+compare: CMakeFiles/compare.dir/src/barycentric.cpp.o
 compare: CMakeFiles/compare.dir/src/deCasteljau.cpp.o
+compare: CMakeFiles/compare.dir/src/lader.cpp.o
+compare: CMakeFiles/compare.dir/src/linearGeometric.cpp.o
 compare: CMakeFiles/compare.dir/src/main.cpp.o
 compare: CMakeFiles/compare.dir/build.make
 compare: CMakeFiles/compare.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable compare"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable compare"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/compare.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

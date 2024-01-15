@@ -31,8 +31,8 @@ double FarinRationalDeCasteljau(vector<double> values, vector<double> weights, i
 	vector<double> R(n+1);
 	vector<double> w(n+1);
 	for (int i=0; i<=n; i++) {
-		R[i] = values[i];
-		w[i] = weights[i];
+		R[i] = values[n-i];
+		w[i] = weights[n-i];
 	}
 
 	double s = 1-t;

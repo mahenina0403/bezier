@@ -177,6 +177,30 @@ src/VS.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/VS.cpp.s
 .PHONY : src/VS.cpp.s
 
+src/barycentric.o: src/barycentric.cpp.o
+.PHONY : src/barycentric.o
+
+# target to build an object file
+src/barycentric.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/barycentric.cpp.o
+.PHONY : src/barycentric.cpp.o
+
+src/barycentric.i: src/barycentric.cpp.i
+.PHONY : src/barycentric.i
+
+# target to preprocess a source file
+src/barycentric.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/barycentric.cpp.i
+.PHONY : src/barycentric.cpp.i
+
+src/barycentric.s: src/barycentric.cpp.s
+.PHONY : src/barycentric.s
+
+# target to generate assembly for a file
+src/barycentric.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/barycentric.cpp.s
+.PHONY : src/barycentric.cpp.s
+
 src/deCasteljau.o: src/deCasteljau.cpp.o
 .PHONY : src/deCasteljau.o
 
@@ -200,6 +224,54 @@ src/deCasteljau.s: src/deCasteljau.cpp.s
 src/deCasteljau.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/deCasteljau.cpp.s
 .PHONY : src/deCasteljau.cpp.s
+
+src/lader.o: src/lader.cpp.o
+.PHONY : src/lader.o
+
+# target to build an object file
+src/lader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/lader.cpp.o
+.PHONY : src/lader.cpp.o
+
+src/lader.i: src/lader.cpp.i
+.PHONY : src/lader.i
+
+# target to preprocess a source file
+src/lader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/lader.cpp.i
+.PHONY : src/lader.cpp.i
+
+src/lader.s: src/lader.cpp.s
+.PHONY : src/lader.s
+
+# target to generate assembly for a file
+src/lader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/lader.cpp.s
+.PHONY : src/lader.cpp.s
+
+src/linearGeometric.o: src/linearGeometric.cpp.o
+.PHONY : src/linearGeometric.o
+
+# target to build an object file
+src/linearGeometric.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/linearGeometric.cpp.o
+.PHONY : src/linearGeometric.cpp.o
+
+src/linearGeometric.i: src/linearGeometric.cpp.i
+.PHONY : src/linearGeometric.i
+
+# target to preprocess a source file
+src/linearGeometric.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/linearGeometric.cpp.i
+.PHONY : src/linearGeometric.cpp.i
+
+src/linearGeometric.s: src/linearGeometric.cpp.s
+.PHONY : src/linearGeometric.s
+
+# target to generate assembly for a file
+src/linearGeometric.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/compare.dir/build.make CMakeFiles/compare.dir/src/linearGeometric.cpp.s
+.PHONY : src/linearGeometric.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -240,9 +312,18 @@ help:
 	@echo "... src/VS.o"
 	@echo "... src/VS.i"
 	@echo "... src/VS.s"
+	@echo "... src/barycentric.o"
+	@echo "... src/barycentric.i"
+	@echo "... src/barycentric.s"
 	@echo "... src/deCasteljau.o"
 	@echo "... src/deCasteljau.i"
 	@echo "... src/deCasteljau.s"
+	@echo "... src/lader.o"
+	@echo "... src/lader.i"
+	@echo "... src/lader.s"
+	@echo "... src/linearGeometric.o"
+	@echo "... src/linearGeometric.i"
+	@echo "... src/linearGeometric.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
