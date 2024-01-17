@@ -1,6 +1,7 @@
 #include <vector>
-#include <mpfr.h>
+#include "mpreal.h"
 
 using namespace std;
+using namespace mpfr;
 
-double linearGeometric(vector<double> values, vector<double> weights, int n, double t);
+mpreal linearGeometric(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t);

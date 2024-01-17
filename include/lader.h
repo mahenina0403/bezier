@@ -1,9 +1,10 @@
 #include <vector>
 #include <cmath>
-#include <mpfr.h>
+#include "mpreal.h"
 
 using namespace std;
+using namespace mpfr;
 
-double lader(vector<double> values, int n, double t);
-double PolynomialLader(vector<double> values, int n, double t);
-double RationalLader(vector<double> values, vector<double> weights, int n, double t);
+mpreal lader(vector<mpreal> values, int n, mpreal t);
+mpreal PolynomialLader(vector<mpreal> values, int n, mpreal t);
+mpreal RationalLader(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t);

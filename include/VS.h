@@ -1,9 +1,10 @@
 #include <vector>
 #include <cmath>
-#include <mpfr.h>
+#include "mpreal.h"
 
 using namespace std;
+using namespace mpfr;
 
-double VS(vector<double> values, int n, double t);
-double PolynomialVS(vector<double> values, int n, double t);
-double RationalVS(vector<double> values, vector<double> weights, int n, double t);
+mpreal VS(vector<mpreal> values, int n, mpreal t);
+mpreal PolynomialVS(vector<mpreal> values, int n, mpreal t);
+mpreal RationalVS(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t);

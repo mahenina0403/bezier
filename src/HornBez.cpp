@@ -1,11 +1,11 @@
 #include "HornBez.h"
 
-double PolynomialHornBez(vector<double> values, int n, double t){
+mpreal PolynomialHornBez(vector<mpreal> values, int n, mpreal t){
 
-	double s;
-	double tk;
-	double b;
-	double N;
+	mpreal s;
+	mpreal tk;
+	mpreal b;
+	mpreal N;
 
 	s = 1-t;
 	tk = 1;
@@ -25,14 +25,14 @@ double PolynomialHornBez(vector<double> values, int n, double t){
 	return N;
 }
 
-double RationalHornBez(vector<double> values, vector<double> weights, int n, double t){
-	vector<double> R(n+1);
+mpreal RationalHornBez(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t){
+	vector<mpreal> R(n+1);
 	for (int i=0; i<=n; i++) {
 		R[i] = weights[i]*values[i];
 	}
 
-	double numerator = PolynomialHornBez(R, n, t);
-	double denominator = PolynomialHornBez(weights, n, t);
+	mpreal numerator = PolynomialHornBez(R, n, t);
+	mpreal denominator = PolynomialHornBez(weights, n, t);
 
 	return numerator/denominator;
 }

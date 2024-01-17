@@ -1,15 +1,15 @@
 #include "wang.h"
 
 
-double n_choose_k(int n, int k){
+mpreal n_choose_k(int n, int k){
 	if (k==0){
 		return 1;
 	}
 	return n_choose_k(n,k-1)*(n-k+1)/k;
 }
 
-vector<vector<double>> convert_to_wang_ball(vector<double> values, vector<double> weights, int n){
-	vector<vector<double>> R;
+vector<vector<mpreal>> convert_to_wang_ball(vector<mpreal> values, vector<mpreal> weights, int n){
+	vector<vector<mpreal>> R;
 	R.resize(2);
 	R[0].resize(n+1);
 	R[1].resize(n+1);
@@ -65,8 +65,8 @@ vector<vector<double>> convert_to_wang_ball(vector<double> values, vector<double
 	return R;
 }
 
-double polynomialWangBall(vector<double> values, int n, double t){
-	vector<vector<double>> f;
+mpreal polynomialWangBall(vector<mpreal> values, int n, mpreal t){
+	vector<vector<mpreal>> f;
 	f.resize(n+1);
 	for (int i=0; i<=n; i++){
 		f[i].resize(n+1);
@@ -77,7 +77,7 @@ double polynomialWangBall(vector<double> values, int n, double t){
 		f[0][i] = values[i];
 	}
 
-	double t1 = 1-t;
+	mpreal t1 = 1-t;
 	for (int k=n; k>=3; k--){
 		if (k%2 == 0){
 			int k2 = k/2;
@@ -105,9 +105,9 @@ double polynomialWangBall(vector<double> values, int n, double t){
 	return f[n][0];
 }
 
-double rationalWangBall(vector<vector<double>> values, int n, double t){
-	double numerator = polynomialWangBall(values[0], n, t);
-	double denominator = polynomialWangBall(values[1], n, t);
+mpreal rationalWangBall(vector<vector<mpreal>> values, int n, mpreal t){
+	mpreal numerator = polynomialWangBall(values[0], n, t);
+	mpreal denominator = polynomialWangBall(values[1], n, t);
 
 	// cout << numerator << "/" << denominator << "=";
 	return numerator/denominator;

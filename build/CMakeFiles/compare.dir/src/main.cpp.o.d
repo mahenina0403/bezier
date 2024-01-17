@@ -158,17 +158,10 @@ CMakeFiles/compare.dir/src/main.cpp.o: \
  /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
- /usr/include/c++/11/bits/vector.tcc /usr/include/mpfr.h \
- /usr/include/x86_64-linux-gnu/gmp.h \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /home/mahenina/Documents/GitHub/bezier/include/VS.h \
+ /usr/include/c++/11/bits/vector.tcc \
+ /home/mahenina/Documents/GitHub/bezier/include/mpreal.h \
+ /usr/include/c++/11/cfloat \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
  /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
@@ -191,12 +184,8 @@ CMakeFiles/compare.dir/src/main.cpp.o: \
  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
  /usr/include/c++/11/tr1/poly_hermite.tcc \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
- /usr/include/c++/11/tr1/riemann_zeta.tcc \
- /home/mahenina/Documents/GitHub/bezier/include/HornBez.h \
- /home/mahenina/Documents/GitHub/bezier/include/lader.h \
- /home/mahenina/Documents/GitHub/bezier/include/linearGeometric.h \
- /home/mahenina/Documents/GitHub/bezier/include/barycentric.h \
- /home/mahenina/Documents/GitHub/bezier/include/wang.h \
+ /usr/include/c++/11/tr1/riemann_zeta.tcc /usr/include/c++/11/cstring \
+ /usr/include/string.h /usr/include/strings.h /usr/include/c++/11/complex \
  /usr/include/c++/11/algorithm /usr/include/c++/11/utility \
  /usr/include/c++/11/bits/stl_relops.h \
  /usr/include/c++/11/bits/stl_algo.h \
@@ -217,7 +206,22 @@ CMakeFiles/compare.dir/src/main.cpp.o: \
  /usr/include/c++/11/bits/node_handle.h \
  /usr/include/c++/11/bits/unordered_map.h \
  /usr/include/c++/11/bits/erase_if.h \
- /usr/include/c++/11/pstl/execution_defs.h \
+ /usr/include/c++/11/pstl/execution_defs.h /usr/include/mpfr.h \
+ /usr/include/x86_64-linux-gnu/gmp.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+ /home/mahenina/Documents/GitHub/bezier/include/VS.h \
+ /home/mahenina/Documents/GitHub/bezier/include/HornBez.h \
+ /home/mahenina/Documents/GitHub/bezier/include/lader.h \
+ /home/mahenina/Documents/GitHub/bezier/include/linearGeometric.h \
+ /home/mahenina/Documents/GitHub/bezier/include/barycentric.h \
+ /home/mahenina/Documents/GitHub/bezier/include/wang.h \
  /usr/include/eigen3/Eigen/Dense /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
  /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -226,11 +230,10 @@ CMakeFiles/compare.dir/src/main.cpp.o: \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
- /usr/include/c++/11/stdlib.h /usr/include/c++/11/complex \
+ /usr/include/c++/11/stdlib.h \
  /usr/include/eigen3/Eigen/src/Core/util/MKL_support.h \
  /usr/include/c++/11/cstddef /usr/include/c++/11/cassert \
- /usr/include/assert.h /usr/include/c++/11/cstring /usr/include/string.h \
- /usr/include/strings.h /usr/include/c++/11/climits \
+ /usr/include/assert.h /usr/include/c++/11/climits \
  /usr/include/eigen3/Eigen/src/Core/util/Constants.h \
  /usr/include/eigen3/Eigen/src/Core/util/Meta.h \
  /usr/include/eigen3/Eigen/src/Core/util/ForwardDeclarations.h \
@@ -415,8 +418,6 @@ CMakeFiles/compare.dir/src/main.cpp.o: \
  /usr/include/eigen3/Eigen/src/Eigenvalues/RealQZ.h \
  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h \
- /usr/include/c++/11/cfloat \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
  /usr/include/c++/11/ciso646 /usr/include/c++/11/csetjmp \
  /usr/include/setjmp.h /usr/include/c++/11/csignal /usr/include/signal.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \

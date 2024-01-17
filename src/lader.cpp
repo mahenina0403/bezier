@@ -1,11 +1,11 @@
 #include "lader.h"
 
-double lader(vector<double> values, int n, double t){
+mpreal lader(vector<mpreal> values, int n, mpreal t){
 
-	double s;
-	double b;
-	double N;
-	double sk;
+	mpreal s;
+	mpreal b;
+	mpreal N;
+	mpreal sk;
 
 	if (t < 1/2){
 		s  = t/(1-t);
@@ -32,11 +32,11 @@ double lader(vector<double> values, int n, double t){
 	return N;
 }
 
-double PolynomialLader(vector<double> values, int n, double t){
+mpreal PolynomialLader(vector<mpreal> values, int n, mpreal t){
 
-	double s;
-	double b;
-	double N;
+	mpreal s;
+	mpreal b;
+	mpreal N;
 
 	if (t < 1/2){
 		s  = pow(1-t,n);
@@ -48,14 +48,14 @@ double PolynomialLader(vector<double> values, int n, double t){
 	return s*lader(values, n, t);
 }
 
-double RationalLader(vector<double> values, vector<double> weights, int n, double t){
-	vector<double> R(n+1);
+mpreal RationalLader(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t){
+	vector<mpreal> R(n+1);
 	for (int i=0; i<=n; i++) {
 		R[i] = weights[i]*values[i];
 	}
 
-	double numerator = PolynomialLader(R, n, t);
-	double denominator = PolynomialLader(weights, n, t);
+	mpreal numerator = PolynomialLader(R, n, t);
+	mpreal denominator = PolynomialLader(weights, n, t);
 
 	return numerator/denominator;
 }

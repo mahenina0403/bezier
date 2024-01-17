@@ -1,7 +1,8 @@
 #include <vector>
-#include <mpfr.h>
+#include "mpreal.h"
 
 using namespace std;
+using namespace mpfr;
 
-double PolynomialHornBez(vector<double> values, int n, double t);
-double RationalHornBez(vector<double> values, vector<double> weights, int n, double t);
+mpreal PolynomialHornBez(vector<mpreal> values, int n, mpreal t);
+mpreal RationalHornBez(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t);

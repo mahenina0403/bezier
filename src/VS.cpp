@@ -1,10 +1,10 @@
 #include "VS.h"
 
-double VS(vector<double> values, int n, double t){
+mpreal VS(vector<mpreal> values, int n, mpreal t){
 
-	double s;
-	double b;
-	double N;
+	mpreal s;
+	mpreal b;
+	mpreal N;
 
 	if (t < 1/2){
 		s  = t/(1-t);
@@ -28,11 +28,11 @@ double VS(vector<double> values, int n, double t){
 	return N;
 }
 
-double PolynomialVS(vector<double> values, int n, double t){
+mpreal PolynomialVS(vector<mpreal> values, int n, mpreal t){
 
-	double s;
-	double b;
-	double N;
+	mpreal s;
+	mpreal b;
+	mpreal N;
 
 	if (t < 1/2){
 		s  = pow(1-t,n);
@@ -44,14 +44,14 @@ double PolynomialVS(vector<double> values, int n, double t){
 	return s*VS(values, n, t);
 }
 
-double RationalVS(vector<double> values, vector<double> weights, int n, double t){
-	vector<double> R(n+1);
+mpreal RationalVS(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t){
+	vector<mpreal> R(n+1);
 	for (int i=0; i<=n; i++) {
 		R[i] = weights[i]*values[i];
 	}
 
-	double numerator = PolynomialVS(R, n, t);
-	double denominator = PolynomialVS(weights, n, t);
+	mpreal numerator = PolynomialVS(R, n, t);
+	mpreal denominator = PolynomialVS(weights, n, t);
 
 	return numerator/denominator;
 }

@@ -1,15 +1,15 @@
 #include "barycentric.h"
 
-vector<double> get_homogeneous_values(vector<double> values, vector<double> weights, int n){
-  vector<double> Values;
-  double t;
+vector<mpreal> get_homogeneous_values(vector<mpreal> values, vector<mpreal> weights, int n){
+  vector<mpreal> Values;
+  mpreal t;
   Values.resize(n+1);
 
   for (int i=0; i<=n; i++){
     Values[i] = values[i] * weights[i];
   }
 
-  vector<double> N;
+  vector<mpreal> N;
   N.resize(n+1);
   for (int i=0; i<=n; i++){
     t = cos(Pi*i/n);
@@ -18,10 +18,10 @@ vector<double> get_homogeneous_values(vector<double> values, vector<double> weig
   return N;
 }
 
-vector<double> get_barycentric_weights(vector<double> weights, int n){
-  vector<double> N;
-  double t;
-  double lagrange_weight;
+vector<mpreal> get_barycentric_weights(vector<mpreal> weights, int n){
+  vector<mpreal> N;
+  mpreal t;
+  mpreal lagrange_weight;
   int sgn = 1;
   
   N.resize(n+1);
@@ -39,9 +39,9 @@ vector<double> get_barycentric_weights(vector<double> weights, int n){
   return N;
 }
 
-vector<double> get_barycentric_data(vector<double> values, vector<double> weights, int n){
+vector<mpreal> get_barycentric_data(vector<mpreal> values, vector<mpreal> weights, int n){
   int sgn = 1;
-  double lagrange_weight;
+  mpreal lagrange_weight;
   for (int i=0; i<=n; i++){
     if (i==0 || i==n){
       lagrange_weight = 0.5;
@@ -54,11 +54,11 @@ vector<double> get_barycentric_data(vector<double> values, vector<double> weight
   return values;
 }
 
-double barycentric(vector<double> values, vector<double> weights, int n, double t){
-  double N = 0;
-  double D = 0;
+mpreal barycentric(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t){
+  mpreal N = 0;
+  mpreal D = 0;
   for (int i=0; i<=n; i++) {
-    double r = t-cos(Pi*i/n);
+    mpreal r = t-cos(Pi*i/n);
     if (abs(r) < 1.0e-14)
       return values[i];
     r = weights[i]/r;

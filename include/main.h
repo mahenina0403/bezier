@@ -14,6 +14,7 @@
 #include "wang.h"
 
 #include<bits/stdc++.h>
-#include <mpfr.h>
+#include "mpreal.h"
 
 using namespace std;
+using namespace mpfr;

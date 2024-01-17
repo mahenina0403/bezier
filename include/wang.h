@@ -2,12 +2,12 @@
 #include <cmath>
 #include <algorithm>
 #include <eigen3/Eigen/Dense>
-#include <mpfr.h>
-
-// #include <iostream>
-typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> Matrix;
+#include "mpreal.h"
 
 using namespace std;
+using namespace mpfr;
 
-vector<vector<double>> convert_to_wang_ball(vector<double> values, vector<double> weights, int n);
-double rationalWangBall(vector<vector<double>> values, int n, double t);
+typedef Eigen::Matrix<mpreal, Eigen::Dynamic, Eigen::Dynamic> Matrix;
+
+vector<vector<mpreal>> convert_to_wang_ball(vector<mpreal> values, vector<mpreal> weights, int n);
+mpreal rationalWangBall(vector<vector<mpreal>> values, int n, mpreal t);
