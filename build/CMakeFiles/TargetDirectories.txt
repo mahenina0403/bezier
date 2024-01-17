@@ -1,3 +1,0 @@
-/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles/compare.dir
-/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles/edit_cache.dir
-/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles/rebuild_cache.dir
