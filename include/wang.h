@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <eigen3/Eigen/Dense>
+#include <mpfr.h>
 
 // #include <iostream>
 typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> Matrix;

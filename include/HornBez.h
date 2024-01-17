@@ -1,4 +1,6 @@
 #include <vector>
+#include <mpfr.h>
+
 using namespace std;
 
 double PolynomialHornBez(vector<double> values, int n, double t);

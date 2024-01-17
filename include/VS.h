@@ -1,5 +1,7 @@
 #include <vector>
 #include <cmath>
+#include <mpfr.h>
+
 using namespace std;
 
 double VS(vector<double> values, int n, double t);

@@ -204,6 +204,7 @@ compare: CMakeFiles/compare.dir/src/linearGeometric.cpp.o
 compare: CMakeFiles/compare.dir/src/main.cpp.o
 compare: CMakeFiles/compare.dir/src/wang.cpp.o
 compare: CMakeFiles/compare.dir/build.make
+compare: /usr/lib/x86_64-linux-gnu/libmpfr.so
 compare: CMakeFiles/compare.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mahenina/Documents/GitHub/bezier/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable compare"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/compare.dir/link.txt --verbose=$(VERBOSE)
