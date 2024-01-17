@@ -31,8 +31,17 @@ int main(int argc, char *argv[]) {
     cout << "Rational lader: " << RationalLader(f,beta,n,t) << endl;
     cout << "Linear-time geometric: " << linearGeometric(f,beta,n,t) << endl;
 
-    auto bar_values = get_barycentric_values(f,beta,n,t);
-    auto bar_weights = get_barycentric_weights(beta,n,t);
+    auto bar_values = get_barycentric_values(f,beta,n);
+    auto bar_weights = get_barycentric_weights(beta,n);
     cout << "Barycentric: " << barycentric(bar_values,bar_weights,n,t) << endl;
+
+    auto W = convert_to_wang_ball(f,beta,n);
+    // for (auto data: W){
+    //     for (auto item: data){
+    //         cout << item << ", ";
+    //     }
+    //     cout << endl;
+    // }
+    cout << "Wang-Ball: " << rationalWangBall(W,n,t) << endl;
     return 0;
 }
