@@ -1,1 +1,2 @@
-# bezier
+Requirements:
+- mpfr
