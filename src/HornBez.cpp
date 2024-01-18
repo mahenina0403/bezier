@@ -15,7 +15,7 @@ mpreal PolynomialHornBez(vector<mpreal> values, int n, mpreal t){
 	for (int i=1; i<n; i++){
 		tk = tk*t;
 		b = b * (n+1-i)/i;
-		N = (N+b*tk*values[n-i])*s;
+		N = (N+tk*b*values[n-i])*s;
 	}
 	if (n > 0){
 		tk = tk*t;

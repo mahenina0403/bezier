@@ -66,43 +66,36 @@ vector<vector<mpreal>> convert_to_wang_ball(vector<mpreal> values, vector<mpreal
 }
 
 mpreal polynomialWangBall(vector<mpreal> values, int n, mpreal t){
-	vector<vector<mpreal>> f;
-	f.resize(n+1);
-	for (int i=0; i<=n; i++){
-		f[i].resize(n+1);
-	}
-
+	vector<mpreal> f;
+	f.resize(n);
 	
-	for (int i=0; i<=n; i++){
-		f[0][i] = values[i];
-	}
-
 	mpreal t1 = 1-t;
-	for (int k=n; k>=3; k--){
-		if (k%2 == 0){
-			int k2 = k/2;
-			for (int i=0; i<= (k2 - 2); i++){
-				f[n+1-k][i] = f[n-k][i];
+	if (n >= 3){
+		if (n%2 == 0){
+			int n2 = n/2;
+			for (int i=0; i<= (n2 - 2); i++){
+				f[i] = values[i];
 			}
-			f[n+1-k][k2-1] = f[n-k][k2-1]*t1 + t*f[n-k][k2];
-			f[n+1-k][k2] = f[n-k][k2]*t1 + t*f[n-k][k2+1];
-			for(int i=k2+1; i<=k-1; i++){
-				f[n+1-k][i] = f[n-k][i+1];
+			f[n2-1] = values[n2-1]*t1 + t*values[n2];
+			f[n2] = values[n2]*t1 + t*values[n2+1];
+			for(int i=n2+1; i<=n-1; i++){
+				f[i] = values[i+1];
 			}
 		}else{
-			for (int i=0; i<= (k-3)/2; i++){
-				f[n+1-k][i] = f[n-k][i];
+			for (int i=0; i<= (n-3)/2; i++){
+				f[i] = values[i];
 			}
-			f[n+1-k][(k-1)/2] = f[n-k][(k-1)/2]*t1 + t*f[n-k][(k+1)/2];
-			for(int i=(k+1)/2; i<=k-1; i++){
-				f[n+1-k][i] = f[n-k][i+1];
+			f[(n-1)/2] = values[(n-1)/2]*t1 + t*values[(n+1)/2];
+			for(int i=(n+1)/2; i<=n-1; i++){
+				f[i] = values[i+1];
 			}
 		}
+		return polynomialWangBall(f, n-1, t);
 	}
-	f[n-1][0] = f[n-2][0]*t1 + t*f[n-2][1];
-	f[n-1][1] = f[n-2][1]*t1 + t*f[n-2][2];
-	f[n][0] = f[n-1][0]*t1 + t*f[n-1][1];
-	return f[n][0];
+	f[0] = values[0]*t1 + t*values[1];
+	f[1] = values[1]*t1 + t*values[2];
+	f[0] = f[0]*t1 + t*f[1];
+	return f[0];
 }
 
 mpreal rationalWangBall(vector<vector<mpreal>> values, int n, mpreal t){

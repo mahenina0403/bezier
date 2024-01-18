@@ -50,8 +50,8 @@ mpreal RationalVS(vector<mpreal> values, vector<mpreal> weights, int n, mpreal t
 		R[i] = weights[i]*values[i];
 	}
 
-	mpreal numerator = PolynomialVS(R, n, t);
-	mpreal denominator = PolynomialVS(weights, n, t);
+	mpreal numerator = VS(R, n, t);
+	mpreal denominator = VS(weights, n, t);
 
 	return numerator/denominator;
 }

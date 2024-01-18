@@ -13,6 +13,7 @@ vector<mpreal> get_homogeneous_values(vector<mpreal> values, vector<mpreal> weig
   N.resize(n+1);
   for (int i=0; i<=n; i++){
     t = cos(Pi*i/n);
+    t = (t+1)/2;
     N[i] = PolynomialDeCasteljau(Values, n, t);
   }
   return N;
@@ -27,7 +28,7 @@ vector<mpreal> get_barycentric_weights(vector<mpreal> weights, int n){
   N.resize(n+1);
   for (int i=0; i<=n; i++){
     t = cos(Pi*i/n);
-    // t = i/n;
+    t = (t+1)/2;
     if (i==0 || i==n){
       lagrange_weight = 0.5;
     }else{
@@ -58,7 +59,7 @@ mpreal barycentric(vector<mpreal> values, vector<mpreal> weights, int n, mpreal 
   mpreal N = 0;
   mpreal D = 0;
   for (int i=0; i<=n; i++) {
-    mpreal r = t-cos(Pi*i/n);
+    mpreal r = t-(cos(Pi*i/n)+1)/2;
     if (abs(r) < 1.0e-14)
       return values[i];
     r = weights[i]/r;

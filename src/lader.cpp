@@ -13,9 +13,9 @@ mpreal lader(vector<mpreal> values, int n, mpreal t){
 		b = 1;
 		N = values[n];
 		for (int i=1; i<=n; i++){
-			sk = sk * s;
-			b = b * (n-i+1)/i;
-			N = N + sk * b * values[n-i];
+			sk = sk * s * (n-i+1)/i;
+			// b = b * (n-i+1)/i;
+			N = N + sk * values[n-i];
 		}
 	}
 	else{
@@ -24,9 +24,9 @@ mpreal lader(vector<mpreal> values, int n, mpreal t){
 		b = 1;
 		N = values[0];
 		for (int i=1; i<=n; i++){
-			sk = sk * s;
-			b = b * (n-i+1)/i;
-			N = N + sk * b * values[i];
+			sk = sk * s * (n-i+1)/i;
+			// b = b * (n-i+1)/i;
+			N = N + sk * values[i];
 		}
 	}
 	return N;
@@ -54,8 +54,8 @@ mpreal RationalLader(vector<mpreal> values, vector<mpreal> weights, int n, mprea
 		R[i] = weights[i]*values[i];
 	}
 
-	mpreal numerator = PolynomialLader(R, n, t);
-	mpreal denominator = PolynomialLader(weights, n, t);
+	mpreal numerator = lader(R, n, t);
+	mpreal denominator = lader(weights, n, t);
 
 	return numerator/denominator;
 }
