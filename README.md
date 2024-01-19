@@ -1,8 +1,4 @@
-Requirements:
-
-> ```
-> mpfr
-> ```
+Requirements: `mpfr`
 
 How to compile?
 > ```
