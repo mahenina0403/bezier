@@ -1,6 +1,8 @@
 Requirements:
 
-> ```mpfr```
+> ```
+> mpfr
+> ```
 
 How to compile?
 > ```
