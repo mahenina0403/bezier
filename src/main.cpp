@@ -1,12 +1,12 @@
 #include "main.h"
 
-void compare_runtime(vector<mpreal> f, vector<mpreal> beta, int n, int sample){
+void compare_runtime(vector<mpreal> f, vector<mpreal> beta, int n, int sample, string filename){
 	mpreal t;
 	int i;
 	clock_t startTime;
 	clock_t endTime;
 
-	ofstream sampletime("../data/result.csv", ios::app);
+	ofstream sampletime(filename, ios::app);
 
 	startTime = clock();
 	for(i=0; i<=sample; i++){
@@ -121,7 +121,8 @@ int main(int argc, char *argv[]) {
 	
 	int n = 3;
 	int sample = 1000;
-	
+	string filename;
+
 	mpreal t = 0.5;
 
 	vector<mpreal> f;
@@ -141,19 +142,39 @@ int main(int argc, char *argv[]) {
 
 	if (argc == 2 && strcmp(argv[1],"-t") == 0){
 		int Samples[6] = {1000, 10000, 20000, 30000, 40000, 50000};
-		ofstream sampletime("../data/result.csv");
+		filename = "../data/sample_result.csv";
+		ofstream sampletime(filename);
 		sampletime.close();
 		for (auto s : Samples){
-			compare_runtime(f,beta,n,s);	
+			compare_runtime(f,beta,n,s,filename);	
 		}
 	}else if (argc == 3 && strcmp(argv[1],"-t") == 0){
+		filename = "../data/sample_result.csv";
+		ofstream sampletime(filename);
+		sampletime.close();
+
 		sample = atoi(argv[2]);
-		compare_runtime(f,beta,n,sample);
+		compare_runtime(f,beta,n,sample,filename);
 	}else if (argc == 2 && strcmp(argv[1],"-p") == 0){
 		compare_precision(f,beta,n,t);
 	}else if (argc == 3 && strcmp(argv[1],"-p") == 0){
 		t = atof(argv[2]);
 		compare_precision(f,beta,n,t);
+	}else if (argc == 2 && strcmp(argv[1],"-d") == 0){
+		int degree[6] = {3, 5, 7, 10, 15, 20};
+		filename = "../data/degree_result.csv";
+		ofstream sampletime(filename);
+		sampletime.close();
+		for (auto m : degree){
+			n = m;
+			f.resize(n+1);
+			beta.resize(n+1);
+			for(int i=0; i<=n; i++){
+				f[i] = i;
+				beta[i] = i;
+			}
+			compare_runtime(f,beta,n,1000,filename);	
+		}
 	}else{
 		cerr << "Command error" << endl;
 	}

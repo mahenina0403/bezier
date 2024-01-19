@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <random>
 
 #include "deCasteljau.h"
 #include "VS.h"
