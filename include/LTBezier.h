@@ -10,11 +10,14 @@
 
 using namespace std;
 
+#define CHEBYSHEV 100
+#define UNIFORM 101
+
 template <class Type>
 const Type Pi(){
     return atan((Type)1)*4;
 }
-
+// #define pi Pi<Type>()
 //DECASTELJAU
 
 template <class Type>
@@ -166,7 +169,6 @@ Type RationalLader(vector<double> values, vector<double> weights, int n, double 
 
 	return N/D;
 }
-
 
 //VS
 template <class Type>
@@ -632,9 +634,11 @@ Type rationalWangBall_2(vector<vector<Type>> R, double t){
 
 //BARYCENTRIC
 template <class Type>
-vector<vector<Type>> get_data(vector<double> values, vector<double> weights, int n){
+vector<vector<Type>> get_data(vector<double> values, vector<double> weights, int n, int distribution = UNIFORM){
+	Type pi;
+	if (distribution==CHEBYSHEV)
+    	pi = Pi<Type>();
 
-	// const Type pi = Pi<Type>();
 
     vector<Type> Values(n+1);
     vector<Type> W(n+1);
@@ -653,24 +657,29 @@ vector<vector<Type>> get_data(vector<double> values, vector<double> weights, int
     Type binomial = 1;
     Type lagrange_weight;
     for (int i=0; i<=n; i++){
-        t = i/(Type)n;
-        // t = (cos(i/(Type)n * pi)+1)/2;
+    	if (distribution==UNIFORM)
+        	t = i/(Type)n;
+        else if (distribution==CHEBYSHEV){
+                t = (cos(i/(Type)n * pi)+1)/2;
+                
+                if (i==0 || i==n)
+                    lagrange_weight = 0.5;
+                else
+                    lagrange_weight = 1;
+        }
+        Type zf = RationalVS<Type>(Values, ones, n, t);
+        Type z = RationalVS<Type>(W, ones, n, t);
         
-        // if (i==0 || i==n)
-        //     lagrange_weight = 0.5;
-        // else
-        //     lagrange_weight = 1;
-
-        Type zf = RationalLader<Type>(Values, ones, n, t);
-        Type z = RationalLader<Type>(W, ones, n, t);
+        if (distribution==UNIFORM){
+        	N[0][i] = binomial * zf;
+        	N[1][i] =  binomial * z;
+        	binomial *= (n+1-(i+1))/(Type)(i+1);
+        }
+        else if (distribution == CHEBYSHEV){
+            N[0][i] = lagrange_weight * zf;
+            N[1][i] =  lagrange_weight * z;
+        }
         
-
-        // N[0][i] = lagrange_weight * zf;
-        // N[1][i] =  lagrange_weight * z;
-        
-        N[0][i] = binomial * zf;
-        N[1][i] =  binomial * z;
-        binomial *= (n+1-(i+1))/(Type)(i+1);
     }
 
     return N;
@@ -678,16 +687,16 @@ vector<vector<Type>> get_data(vector<double> values, vector<double> weights, int
 
 //BARYCENTRIC
 
-template <class Type>
-vector<Type> get_nodes(int n){
-	const Type pi = Pi<Type>();
-	vector<Type> T(n+1);
-	for (int i=0; i<=n; i++)
-		// T[i] = (cos(i/(Type)n * pi)+1)/2;
-		T[i] = i/n;
+// template <class Type>
+// vector<Type> get_nodes(int n){
+// 	const Type pi = Pi<Type>();
+// 	vector<Type> T(n+1);
+// 	for (int i=0; i<=n; i++)
+// 		// T[i] = (cos(i/(Type)n * pi)+1)/2;
+// 		T[i] = i/n;
 
-	return T;
-}
+// 	return T;
+// }
 
 // template <class Type>
 // vector<Type> get_homogeneous_values(vector<double> values, vector<double> weights, vector<Type> T, int n){
@@ -751,8 +760,10 @@ vector<Type> get_nodes(int n){
 // }
 
 template <class Type>
-Type barycentric(vector<Type> V, vector<Type> W, int n, double t){
-    // const Type pi = Pi<Type>();
+Type barycentric(vector<Type> V, vector<Type> W, int n, double t, int distribution=UNIFORM){
+	Type pi;
+	if (distribution==CHEBYSHEV)
+    	pi = Pi<Type>();
 
     //evaluation
     Type N = 0;
@@ -760,8 +771,10 @@ Type barycentric(vector<Type> V, vector<Type> W, int n, double t){
     Type r;
     int sgn = 1;
     for (int i=0; i<=n; i++) {
-        // r = t - (cos(i/(Type)n * pi) + 1) / 2;
-        r = (Type)t-i/(Type)n;
+        if (distribution==UNIFORM)
+        	r = (Type)t-i/(Type)n;
+        else if (distribution==CHEBYSHEV)
+        	r = t - (cos(i/(Type)n * pi) + 1) / 2;	
 
         // Type r = (Type)t - T[i];
         if (r == 0)
@@ -775,6 +788,4 @@ Type barycentric(vector<Type> V, vector<Type> W, int n, double t){
     // cout << D << endl;
     return N/D;
 }
-
-
 #endif // LTBEZIER_H_INCLUDED
