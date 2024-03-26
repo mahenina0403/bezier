@@ -1,233 +1,170 @@
-//gcc main.cpp -lstdc++ -lmpfr -o main.exe
+#include "main.h"
 
-#include <iostream>
-#include <fstream>
-#include <ctime>
+void compare_runtime(const vector<vec2> f, const vector<double> beta, int n, int sample, ofstream& sampletime){
+	double t;
+	int i;
+	clock_t startTime;
+	clock_t endTime;
 
-#include <cstdlib>
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <ctime>
-#include <iomanip>
+	startTime = clock();
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		RationalDeCasteljau(f,beta,n,t);
+	}
+	endTime = clock();
+	cout << "RDC: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << ",";
 
-#include "LTBezier.h"
-#include "mpreal.h"
+	startTime = clock();
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		FarinRationalDeCasteljau(f,beta,n,t);
+	}
+	endTime = clock();
+	cout << "FDC: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << ",";
 
-using namespace std;
-using mpfr::mpreal;
+	startTime = clock();
 
-void relative_error(vector<double> f, vector<double> beta, int n, double t){
-    mpreal absolute = RationalDeCasteljau<mpreal>(f,beta,n,t);
-    double decast = RationalDeCasteljau<double>(f,beta,n,t);
-    double farin = FarinRationalDeCasteljau<double>(f,beta,n,t);
-    double vs = RationalVS<double>(f,beta,n,t);
-    double hornBez = RationalHornBez<double>(f,beta,n,t);
-    // double lader = RationalLader<double>(f,beta,n,t);
-    double linearGeo = linearGeometric<double>(f,beta,n,t);
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		RationalVS(f,beta,n,t);
+	}
+	endTime = clock();
+	cout << "RVS: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << ",";
 
-    vector<vector<double>> D = get_data<double>(f,beta,n,UNIFORM);
-    double bary_UNIFORM = barycentric<double>(D[0],D[1],n,t,UNIFORM);
+	startTime = clock();
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		RationalHornBez(f,beta,n,t);
+	}
+	endTime = clock();
 
-    D = get_data<double>(f,beta,n,CHEBYSHEV);
-    double bary_CHEBYSHEV= barycentric<double>(D[0],D[1],n,t,CHEBYSHEV);
+	cout << "RHB: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << ",";
 
-    vector<vector<double>>  M = convert_to_wang_ball_stable<double>(f,beta,n);
-    double wangBall = rationalWangBall_2<double>(M,t);
+	startTime = clock();
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		linearGeometric(f,beta,n,t);
+	}
+	endTime = clock();
+	cout << "LTG: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << ",";
 
-    cout.precision(5);
-    cout << setw(50) << left << "DeCasteljau:";
-    cout << absolute - (mpreal)decast << endl;
-    cout << setw(50) << "FarinDeCasteljau: ";
-    cout << absolute - (mpreal)farin << endl;
-    cout << setw(50) << "VS:";
-    cout << absolute - (mpreal)vs << endl;
-    cout << setw(50) << "HornBez:";
-    cout << absolute - (mpreal)hornBez << endl;
-    cout << setw(50) << "linearGeometric: ";
-    cout << absolute - (mpreal)linearGeo << endl;
-    cout << setw(50) << "barycentric (UNIFORM):";
-    cout << absolute - (mpreal)bary_UNIFORM << endl;
-    cout << setw(50) << "barycentric (CHEBYSHEV):";
-    cout << absolute - (mpreal)bary_CHEBYSHEV << endl;
-    cout << setw(50) << "WangBall:";
-    cout << absolute - (mpreal)wangBall << endl;
+	vector<vec2> g(n+1);
+	vector<double> alpha(n+1);
+	
+	vector<double> T;
+	startTime = clock();
+	T = compute_nodes(n,CHEBYSHEV);
+	get_data(f,beta,T,n,&g,&alpha,CHEBYSHEV);
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		barycentric(g,alpha,T,n,t);
+	}
+	endTime = clock();
+	// cout << "Method: barycentric" << endl;
+	cout << "BAR CHE: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << ",";
+
+	startTime = clock();
+	T = compute_nodes(n,UNIFORM);
+	get_data(f,beta,T,n,&g,&alpha,UNIFORM);
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		barycentric(g,alpha,T,n,t);
+	}
+	endTime = clock();
+	cout << "BAR UNI: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << ",";
+
+	vector<vec2> WangBallPoints(n+1);
+	vector<double> WangBallWeights(n+1);
+	startTime = clock();
+	convert_to_wang_ball(f,beta,&WangBallPoints,&WangBallWeights,n);
+	for(i=0; i<=sample; i++){
+		t = 1.0*i/sample;
+		rationalWangBall(WangBallPoints,WangBallWeights,t);
+	}
+	endTime = clock();
+	// cout << "Method: rationalWangBall" << endl;
+	cout << "RWB: Time elapsed is " << (endTime-startTime) / (double) CLOCKS_PER_SEC << " s" << endl;
+	sampletime << (endTime-startTime) / (double) CLOCKS_PER_SEC << endl;
 }
 
-void efficiency_comparison(vector<double> f, vector<double> beta, int n, double t, int Sample=1000){
-    // int Sample = 1000;
-    cout.precision(10);
-    
-    clock_t startTime = clock();
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        RationalDeCasteljau<double>(f,beta,n,t);
-    }
-    clock_t endTime = clock();
-    double t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << left << "DeCasteljau:";
-    cout << t1 << "." << endl;
 
-    startTime = clock();
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        FarinRationalDeCasteljau<double>(f,beta,n,t);
-    }
-    endTime = clock();
-    t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << "FarinDeCasteljau:";
-    cout << t1 << "." << endl;
-    
-    startTime = clock();
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        RationalVS<double>(f,beta,n,t);
-    }
-    endTime = clock();
-    t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << "VS:";
-    cout << t1 << "." << endl;
+void compare_values(const vector<vec2> f,const vector<double> beta, int n, double t){
 
-    startTime = clock();
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        RationalHornBez<double>(f,beta,n,t);
-    }
-    endTime = clock();
-    t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << "HornBez:";
-    cout << t1 << "." << endl;
+	cout << "RDC: " << RationalDeCasteljau(f,beta,n,t) << endl;
+	cout << "FDC: " << FarinRationalDeCasteljau(f,beta,n,t) << endl;
+	cout << "RVS: " << RationalVS(f,beta,n,t) << endl;
+	cout << "RHB: " << RationalHornBez(f,beta,n,t) << endl;
+	cout << "LGM: " << linearGeometric(f,beta,n,t) << endl;
+		
+	vector<vec2> g(n+1);
+	vector<double> alpha(n+1);
+	vector<double> T;
+	
+	T = compute_nodes(n,CHEBYSHEV);
+	get_data(f,beta,T,n,&g,&alpha,CHEBYSHEV);
+	cout << "CHE: " << barycentric(g,alpha,T,n,t) << endl;
+	
+	T = compute_nodes(n,UNIFORM);
+	get_data(f,beta,T,n,&g,&alpha,UNIFORM);
+	cout << "UNI: " << barycentric(g,alpha,T,n,t) << endl;
 
-    // startTime = clock();
-    // for (int i=0; i<=Sample; i++){
-    //     t = i / (double) Sample;
-    //     RationalLader<double>(f,beta,n,t);
-    // }
-    // endTime = clock();
-    // t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    // cout << "Lader:            " << t1 << "." << endl;
-
-    startTime = clock();
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        linearGeometric<double>(f,beta,n,t);
-    }
-    endTime = clock();
-    t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << "linearGeometric:";
-    cout << t1 << "." << endl;
-
-    startTime = clock();
-    vector<vector<double>> M = convert_to_wang_ball_stable<double>(f,beta,n);
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        rationalWangBall_2<double>(M,t);
-    }
-    endTime = clock();
-    t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << "WangBall:";
-    cout << t1 << "." << endl;
-
-    
-    // vector<double> T = get_nodes<double>(n);
-    // vector<double> V = get_homogeneous_values<double>(f,beta,T,n);
-    // vector<double> W = get_barycentric_weights<double>(beta,T,n);
-    // get_barycentric_data<double>(V,W,n);
-    vector<double> T(n+1);
-    // for (int i=0; i<=n; i++)
-    //     T[i] = i/n;
-    
-    // T = get_nodes<double>(n);
-
-    startTime = clock();
-    vector<vector<double>> D = get_data<double>(f,beta,n);
-    vector<double> V = D[0];
-    vector<double> W = D[1];
-    
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        barycentric<double>(V,W,n,t);
-    }
-    endTime = clock();
-    t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << "barycentric (UNIFORM):";
-    cout << t1 << "." << endl;
-
-    startTime = clock();
-    D = get_data<double>(f,beta,n,CHEBYSHEV);
-    V = D[0];
-    W = D[1];
-    
-    for (int i=0; i<=Sample; i++){
-        t = i / (double) Sample;
-        barycentric<double>(V,W,n,t,CHEBYSHEV);
-    }
-    endTime = clock();
-    t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    cout << setw(50) << "barycentric (CHEBYSHEV):";
-    cout << t1 << "." << endl;
+	vector<vec2> WangBallPoints(n+1);
+	vector<double> WangBallWeights(n+1);
+	
+	convert_to_wang_ball(f,beta,&WangBallPoints,&WangBallWeights,n);
+	cout << "RWB: " << rationalWangBall(WangBallPoints,WangBallWeights,t) << endl;
 }
 
-int main(int argc, char* argv[]){
-    int my_mpreal_precision = 1024;
-    mpreal::set_default_prec(my_mpreal_precision);
 
-    cout.precision(200);
+int main(int argc, char *argv[]) {
 
-    double t = 0.5;
-    int n = 19;
+	int n;
+	int sample = 100;
+	string filename = "../data/sample_result.csv";
 
-	vector<double> f(n+1);
-	vector<double> beta(n+1);
+	if (argc == 2)
+		sample = atoi(argv[1]);
 
-    for(int i=0; i<=n; i++){
-        f[i] = i*pow(-1,i);
-        beta[i] = 1;
-    }
-    beta[0] = 2;
-    beta[n] = 2;
+	double t = 0.8;
 
-    // int Sample = 10000000;
-    // clock_t startTime = clock();
-    // for (int i=0; i<=Sample; i++){
-    //     t = i / (double) Sample;
-    //     HomogeneousLader<double>(f,beta,n,t);
-    // }
-    // clock_t endTime = clock();
-    // double t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    // cout << "DeCasteljau:      " << t1 << "." << endl;
+	vector<vec2> f;
+	vector<double> beta;
+	
+	n = 20;
+	f.resize(n+1);
+	beta.resize(n+1);
+	for(int i=0; i<=n; i++){
+		f[i] = vec2(i*100);
+		beta[i] = 1;
+	}
 
-    // startTime = clock();
-    // for (int i=0; i<=Sample; i++){
-    //     t = i / (double) Sample;
-    //     RationalLader<double>(f,beta,n,t);
-    // }
-    // endTime = clock();
-    // t1 = (endTime-startTime) / (double) CLOCKS_PER_SEC;
-    // cout << "Lader:            " << t1 << "." << endl;
+	vector<int> S{100,1000,10000,100000,500000,1000000};
 
-    if (argc == 2 && strcmp(argv[1],"-r")==0)
-        relative_error(f,beta,n,t);
-    else if (argc == 3 && strcmp(argv[1],"-r")==0){
-        t = atof(argv[2]);
-        relative_error(f,beta,n,t);
-    }
-    else if (argc == 2 && strcmp(argv[1],"-e")==0)
-        efficiency_comparison(f,beta,n,t);
-    else if (argc == 3 && strcmp(argv[1],"-e")==0){
-        efficiency_comparison(f,beta,n,t,atoi(argv[2]));
-    }
-    else{
-        cout << "Command:" << endl;
-        cout << setw(25) << left << "./compare -e";
-        cout << "compare the efficiency with 1000 sample" << endl;
-        cout << setw(25) << "./commpare -e [sample]";
-        cout << "compare the efficiency with a user defined number of sample" << endl;
-        cout << setw(25) << "./compare -r";
-        cout << "ompare the relative error at t = 0.5" << endl;
-        cout << setw(25) << "./compare -r [t]";
-        cout << "compare the relative error at a user defined parameter t" << endl;
-    }
 
-    return 1;
+	if (argc==2){
+		ofstream sampletime("");
+		compare_runtime(f,beta,n,sample,sampletime);
+		return 0;
+	}
+
+	ofstream sampletime(filename);
+	sampletime.close();
+	for (const auto& s: S){
+		ofstream sampletime(filename, ios::app);
+		compare_runtime(f,beta,n,s,sampletime);
+		sampletime.close();
+	}
+
+	// if (argc==2)
+	// 	t = atof(argv[1]);
+	// compare_values(f,beta,n,t);
+	
+	return 0;
 }
