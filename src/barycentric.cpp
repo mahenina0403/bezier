@@ -7,9 +7,9 @@ vector<double> compute_nodes(int n, int distribution){
 
 	for (int i=0; i<=n; i++){
 		if (distribution==CHEBYSHEV)
-			T[i] = (cos(i/n * pi)+1)/2;
+			T[i] = (cos((double)i/n * pi)+1)/2;
 		if (distribution==UNIFORM)
-			T[i] = i/n;
+			T[i] = (double)i/n;
 	}
 	return T;
 }
@@ -17,7 +17,7 @@ vector<double> compute_nodes(int n, int distribution){
 vector<double> get_at_ti(const vector<vec2> values, const vector<double> weights, int n, double t){
 	double s;
 	double b = 1;
-	vec2 N;
+	vec2 N(0);
 	double D;
 	double tmp;
 
@@ -27,13 +27,11 @@ vector<double> get_at_ti(const vector<vec2> values, const vector<double> weights
 		s  = t / (1 - t);
 		fact = 1;
 		t1 = (1-t);
-		N = weights[n]*values[n];
+		N = values[n];
 		D = weights[n];
 		for (int i=1; i<=n; i++){
-			b = b*(n-i+1) / i;
-			tmp = weights[n-i]*b;
-			N = N*s + tmp*values[n-i];
-			D = D*s + tmp;
+			N = N*s + values[n-i];
+			D = D*s + weights[n-i];
 			fact = fact * t1;
 		}
 	}
@@ -44,14 +42,15 @@ vector<double> get_at_ti(const vector<vec2> values, const vector<double> weights
 		N = weights[0]*values[0];
 		D = weights[0];
 		for (int i=1; i<=n; i++){
-			b = b*(n-i+1) / i;
-			tmp = weights[i]*b;
-			N = N*s + tmp*values[i];
-			D = D*s + tmp;
+			N = N*s + values[i];
+			D = D*s + weights[i];
 			fact = fact * t1;
 		}
 	}
+
 	N = N/D;
+
+
 	return {N.x(), N.y(), fact*D};
 }
 
@@ -63,9 +62,19 @@ void get_data(const vector<vec2> values, const vector<double> weights, const vec
 	double coeff = 1;
 	vector<double> tmp;
 
+	vector<vec2> g(n+1);
+	vector<double> alpha(n+1);
+
+	for(int i=0;i<=n;i++){
+		g[i] = values[i];
+		alpha[i] = weights[i];
+	}
+	gen_VS_data(&g, &alpha, n);
+
+
 	for (int i=0; i<=n; i++){
 		t = T[i];
-		tmp = get_at_ti(values, weights, n, t);
+		tmp = get_at_ti(g, alpha, n, t);
 		(*Q)[i] = vec2(tmp[0],tmp[1]);
 
 		if (distribution==CHEBYSHEV){
@@ -86,7 +95,7 @@ vec2 barycentric(const vector<vec2> V, const vector<double> W, const vector<doub
 	vec2 N = vec2(0);
 	double D = 0;
 	double r;
-	int sgn = 1;
+
 	for (int i=0; i<=n; i++) {
 		r = t-T[i];
 		if (r==0)
@@ -96,4 +105,32 @@ vec2 barycentric(const vector<vec2> V, const vector<double> W, const vector<doub
 		D = D + r;
 	}
 	return N/D;
+}
+
+
+vector<vec2> barycentric_2(const vector<vec2> V, const vector<double> W, const vector<double> T, int n, double t){
+//evaluation
+	vec2 N1 = vec2(0);
+	vec2 N2 = vec2(0);
+	double d1 = 0;
+	double d2 = 0;
+	double r;
+	double u;
+
+	int ni;
+	for (int i=0; i<=n; i++) {
+		ni = n-i;
+		r = t-T[i];
+		if (r==0)
+			return {V[i], V[ni]};
+
+		u = W[ni]/r;
+		r = W[i]/r;
+		N1 = N1 + r * V[i];
+		d1 = d1 + r;
+
+		N2 = N2 + u * V[ni];
+		d2 = d2 + u;
+	}
+	return {N1/d1, N2/d2};
 }

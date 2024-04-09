@@ -12,6 +12,7 @@
 #include "linearGeometric.h"
 #include "barycentric.h"
 #include "wang.h"
+#include "BF.h"
 
 #include<bits/stdc++.h>
 

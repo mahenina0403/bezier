@@ -13,6 +13,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(include)
 
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+include_directories(${EIGEN3_INCLUDE_DIR})
+
 file(GLOB source_files src/*.cpp)
 file(GLOB include_files include/*.h)
 
