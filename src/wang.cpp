@@ -1,19 +1,11 @@
 #include "wang.h"
 
-
-double n_choose_k(int n, int k){
-	if (k==0){
-		return 1;
-	}
-	return n_choose_k(n,k-1)*(n-k+1)/k;
-}
-
-vector<vector<double>> uk(int n){
+vector<vector<double>> Uk(int n){
 	double ceil_n2 = ceil(n/2);
 	vector<vector<double>> u(n+1);
 	
 	for (int k=0; k<=n; k++)
-		u[k].resize(ceil_n2);
+		u[k].resize(n+1);
 
 	int pow2 = 1;
 
@@ -32,6 +24,7 @@ vector<vector<double>> uk(int n){
 		}
 		for (int k=0; k<=n; k++){
 			u[k][i] *= pow2;
+			u[n-k][n-i] = u[k][i];
 		}
 		pow2 *= 2;
 	}
@@ -43,36 +36,11 @@ vec2 at_k(const vector<vec2> P, const vector<vector<double>> u, int k){
 	int i;
 
 	vec2 A = vec2(0);
-	vec2 B = vec2(0);
-
-	double floor_n2 = floor((double)n/2);
-	double ceil_n2 = ceil((double)n/2);
-
-	int start = n-k+1;
-	int end = n-k;
-	if (k==floor_n2)
-		start = k+2;
-	if (k==ceil_n2)
-		end = k-2;
-
-	if (k <= floor_n2){
-		for (i=0; i<=k-1; i++)
-			// A = A + pow((double)2,i) * n_choose_k<double>(n-2-2*i, k-i) * P[i];
-			A = A + u[k][i] * P[i];
-		for (i=start; i<=n;i++)
-			B = B + pow((double)2,n-i) * n_choose_k(2*i-2-n,i-k) * P[i];
+	
+	for (i=0; i<=n; i++){
+		A = A + u[k][i] * P[i];
 	}
-	else if (k >= ceil_n2){
-		for (i=0; i<=end; i++){
-			// A = A + pow((double)2,i) * n_choose_k<double>(n-2-2*i,k-i) * P[i];
-			A = A + u[k][i] * P[i];
-		}
-		for (i=k+1; i<=n; i++)
-			B = B + pow((double)2,n-i) * n_choose_k(2*i-2-n,i-k) * P[i];
-	}
-
-	// return (A+B)/n_choose_k<double>(n,k);
-	return (A+B);
+	return (A);
 }
 
 double at_k(const vector<double> P, const vector<vector<double>> u, int k){
@@ -80,56 +48,31 @@ double at_k(const vector<double> P, const vector<vector<double>> u, int k){
 	int i;
 
 	double A = 0;
-	double B = 0;
-
-	double floor_n2 = floor((double)n/2);
-	double ceil_n2 = ceil((double)n/2);
-
-	int start = n-k+1;
-	int end = n-k;
-	if (k==floor_n2)
-		start = k+2;
-	if (k==ceil_n2)
-		end = k-2;
-
-	if (k <= floor_n2){
-		for (i=0; i<=k-1; i++)
-			// A = A + pow((double)2,i) * n_choose_k<double>(n-2-2*i, k-i) * P[i];
-			A = A + u[k][i] * P[i];
-		for (i=start; i<=n;i++)
-			B = B + pow((double)2,n-i) * n_choose_k(2*i-2-n,i-k) * P[i];
+	for (i=0; i<=n; i++){
+		A = A + u[k][i] * P[i];
 	}
-	else if (k >= ceil_n2){
-		for (i=0; i<=end; i++){
-			// A = A + pow((double)2,i) * n_choose_k<double>(n-2-2*i,k-i) * P[i];
-			A = A + u[k][i] * P[i];
-		}
-		for (i=k+1; i<=n; i++)
-			B = B + pow((double)2,n-i) * n_choose_k(2*i-2-n,i-k) * P[i];
-	}
-
-	// return (A+B)/n_choose_k<double>(n,k);
-	return (A+B);
+	return (A);
 }
 
 
 void convert_to_wang_ball(const vector<vec2> values, const vector<double> weights, vector<vec2> *WB, vector<double> *Ww, int n){
-	vector<vector<double>> u = uk(n);
-	// vector<vector<double>> v = vk(n);
-
-
+	vector<vector<double>> u = Uk(n);
 	vector<vec2> Values(n+1);
 	vector<double> Weights(n+1);
 	double constant = 1;
     for (int i=0; i<=n; i++){
         Values[i] =  values[i] * weights[i];
         Weights[i] =  weights[i];
+
+        (*WB)[i] = vec2(0);
+        (*Ww)[i] =0;
     }
 
     double floor_n2 = floor(n/2);
 	double ceil_n2 = ceil(n/2);
 
 	double binomial = 1;
+
 	(*WB)[0] = Values[0];
 	(*Ww)[0] = Weights[0];
 	(*WB)[n] = Values[n];
@@ -137,8 +80,7 @@ void convert_to_wang_ball(const vector<vec2> values, const vector<double> weight
 	int k = 1;
 	while(k <= n-k){
 		binomial = binomial * (n-k+1)/k;
-		// double constant = 0;
-		// constant = binomial / pow((double)2,k);
+
 		constant = constant / 2;
 		(*WB)[k] = (binomial*Values[k]-at_k((*WB),u,k)) * constant;
 		(*Ww)[k] = (binomial*Weights[k]-at_k((*Ww),u,k)) * constant;
@@ -148,7 +90,6 @@ void convert_to_wang_ball(const vector<vec2> values, const vector<double> weight
 		if (K==k)
 			break;
 
-		// constant = binomial / pow((double)2,n-K);
 		(*WB)[K] = (binomial*Values[K]-at_k((*WB),u,K)) * constant;
 		(*Ww)[K] = (binomial*Weights[K]-at_k((*Ww),u,K)) * constant;
 		k++;

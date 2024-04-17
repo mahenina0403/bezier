@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <random>
+#include <cstdlib>
 
 #include "deCasteljau.h"
 #include "VS.h"
@@ -13,7 +14,7 @@
 #include "barycentric.h"
 #include "wang.h"
 #include "BF.h"
-
+#include "highprecision.h"
 #include<bits/stdc++.h>
 
 using namespace std;

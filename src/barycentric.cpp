@@ -1,5 +1,16 @@
 #include "barycentric.h"
 
+double power(double x, int n){
+	if (n==0)
+		return 1;
+
+	double x2 = power(x,int(n/2));
+	if (n%2==0)
+		return x2 * x2;
+	else
+		return x*x2*x2;
+}
+
 vector<double> compute_nodes(int n, int distribution){
 	vector<double> T(n+1);
 
@@ -24,27 +35,25 @@ vector<double> get_at_ti(const vector<vec2> values, const vector<double> weights
 	double fact;
 	double t1;
 	if (t < 0.5){
-		s  = t / (1 - t);
-		fact = 1;
 		t1 = (1-t);
+		s  = t / t1;
+		fact = power(t1,n);
 		N = values[n];
 		D = weights[n];
 		for (int i=1; i<=n; i++){
-			N = N*s + values[n-i];
-			D = D*s + weights[n-i];
-			fact = fact * t1;
+			int ni = n-i;
+			N = N*s + values[ni];
+			D = D*s + weights[ni];
 		}
 	}
 	else{
 		s  = (1 - t) / t;
-		fact = 1;
-		t1 = t;
+		fact = power(t,n);
 		N = weights[0]*values[0];
 		D = weights[0];
 		for (int i=1; i<=n; i++){
 			N = N*s + values[i];
 			D = D*s + weights[i];
-			fact = fact * t1;
 		}
 	}
 
@@ -65,12 +74,7 @@ void get_data(const vector<vec2> values, const vector<double> weights, const vec
 	vector<vec2> g(n+1);
 	vector<double> alpha(n+1);
 
-	for(int i=0;i<=n;i++){
-		g[i] = values[i];
-		alpha[i] = weights[i];
-	}
-	gen_VS_data(&g, &alpha, n);
-
+	gen_VS_data(values, weights, &g, &alpha, n);
 
 	for (int i=0; i<=n; i++){
 		t = T[i];

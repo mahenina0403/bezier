@@ -33,14 +33,17 @@ vec2 RationalVS(const vector<vec2> values, const vector<double> weights, int n, 
 	return N/D;
 }
 
-void gen_VS_data( vector<vec2> *values, vector<double> *weights, int n){
+void gen_VS_data(const vector<vec2> f, const vector<double> beta, vector<vec2> *values, vector<double> *weights, int n){
 	int b = 1;
 	double tmp;
-	for (int i=1; i<n; i++){
+	(*values)[0] = beta[0]*f[0];
+	(*weights)[0] = beta[0];
+	for (int i=1; i<=n; i++){
 		b = b*(n-i+1)/i;
-		tmp = b*(*weights)[i];
-		(*values)[i] *= tmp;
+		tmp = b*beta[i];
+		(*values)[i] = tmp * f[i];
 		(*weights)[i] = tmp;
+
 	}
 }
 

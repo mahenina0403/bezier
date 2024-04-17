@@ -5,5 +5,4 @@
 
 using namespace std;
 
-
 vec2 linearGeometric(const vector<vec2> values, const vector<double> weights, int n, double t);
