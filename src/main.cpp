@@ -316,7 +316,7 @@ void compare_error(const vector<vec2> f,const vector<double> beta, int n, double
 }
 
 int main(int argc, char *argv[]) {
-	int my_mpreal_precision = 64;
+	int my_mpreal_precision = 1024;
     mpreal::set_default_prec(my_mpreal_precision);
 
 	int n;
@@ -444,14 +444,15 @@ int main(int argc, char *argv[]) {
 		f.resize(n+1);
 		beta.resize(n+1);
 		for(int i=0; i<=n; i++){
-			// f[i] = vec2(i*100)+vec2(1,0);
-			// beta[i] = (i%2)+1;
+			// example of unstable for UNI, RWB, RBF
+			f[i] = vec2(i*100)+vec2(1,0);
+			beta[i] = (i%2)+1;
 
-			// Wang-Ball unstable
-			f[i] = vec2(sin(i*pi/(n+1))+1);
-			beta[i] = 0.1;
-			if (i==0 || i==n)
-				beta[i] = 1;
+			// example of unstable for UNI, RWB
+			// f[i] = vec2(sin(i*pi/(n+1))+1);
+			// beta[i] = 0.1;
+			// if (i==0 || i==n)
+			// 	beta[i] = 1;
 
 		}
 
