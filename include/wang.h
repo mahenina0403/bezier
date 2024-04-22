@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+
+
 #include <vector>
 #include <cmath>
 #include <iostream>

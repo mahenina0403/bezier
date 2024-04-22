@@ -1,14 +1,17 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+
+
 #include "wang.h"
 
-vector<vector<double>> Uk(int n){
+vector<vector<unsigned long long>> Uk(int n){
 	double ceil_n2 = ceil(n/2);
-	vector<vector<double>> u(n+1);
+	vector<vector<unsigned long long>> u(n+1);
 	
 	for (int k=0; k<=n; k++)
 		u[k].resize(n+1);
 
-	int pow2 = 1;
-
+	long long pow2 = 1;
 	for (int i=0;i<=ceil_n2-1;i++){
 		int Ni = n-2-2*i;
 		for (int k=0; k<=n; k++){
@@ -18,8 +21,10 @@ vector<vector<double>> Uk(int n){
 				u[k][i] = 0;
 			else if (k==i)
 				u[k][i] = 1;
-			else
-				u[k][i] = u[k-1][i] * (Ni+i-k+1)/(k-i);
+			else{
+				u[k][i] = u[k-1][i] * (Ni+i-k+1);
+				u[k][i] = u[k][i]/(k-i);
+			}
 
 		}
 		for (int k=0; k<=n; k++){
@@ -31,7 +36,7 @@ vector<vector<double>> Uk(int n){
 	return u;
 }
 
-vec2 at_k(const vector<vec2> P, const vector<vector<double>> u, int k){
+vec2 at_k(const vector<vec2> P, const vector<vector<unsigned long long>> u, int k){
 	int n = P.size()-1;
 	int i;
 
@@ -43,7 +48,7 @@ vec2 at_k(const vector<vec2> P, const vector<vector<double>> u, int k){
 	return (A);
 }
 
-double at_k(const vector<double> P, const vector<vector<double>> u, int k){
+double at_k(const vector<double> P, const vector<vector<unsigned long long>> u, int k){
 	int n = P.size()-1;
 	int i;
 
@@ -56,7 +61,9 @@ double at_k(const vector<double> P, const vector<vector<double>> u, int k){
 
 
 void convert_to_wang_ball(const vector<vec2> values, const vector<double> weights, vector<vec2> *WB, vector<double> *Ww, int n){
-	vector<vector<double>> u = Uk(n);
+
+	vector<vector<unsigned long long>> u = Uk(n);
+
 	vector<vec2> Values(n+1);
 	vector<double> Weights(n+1);
 	double constant = 1;
@@ -71,7 +78,7 @@ void convert_to_wang_ball(const vector<vec2> values, const vector<double> weight
     double floor_n2 = floor(n/2);
 	double ceil_n2 = ceil(n/2);
 
-	double binomial = 1;
+	unsigned long long binomial = 1;
 
 	(*WB)[0] = Values[0];
 	(*Ww)[0] = Weights[0];
@@ -79,7 +86,8 @@ void convert_to_wang_ball(const vector<vec2> values, const vector<double> weight
 	(*Ww)[n] = Weights[n];
 	int k = 1;
 	while(k <= n-k){
-		binomial = binomial * (n-k+1)/k;
+		binomial = binomial * (n-k+1);
+		binomial = binomial / k;
 
 		constant = constant / 2;
 		(*WB)[k] = (binomial*Values[k]-at_k((*WB),u,k)) * constant;

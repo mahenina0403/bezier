@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+
+
 #include "highprecision.h"
 
 mpreal RationalDeCasteljau(vector<double> values, vector<double> weights, int n, double t){

@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+
+
 #include "barycentric.h"
 
 double power(double x, int n){
@@ -27,7 +31,6 @@ vector<double> compute_nodes(int n, int distribution){
 
 vector<double> get_at_ti(const vector<vec2> values, const vector<double> weights, int n, double t){
 	double s;
-	double b = 1;
 	vec2 N(0);
 	double D;
 	double tmp;
@@ -58,9 +61,9 @@ vector<double> get_at_ti(const vector<vec2> values, const vector<double> weights
 	}
 
 	N = N/D;
-
-
 	return {N.x(), N.y(), fact*D};
+
+	// return {fact*N.x(), fact*N.y(), fact*D};
 }
 
 void get_data(const vector<vec2> values, const vector<double> weights, const vector<double> T, int n, vector<vec2> *Q, vector<double> *beta, int distribution){

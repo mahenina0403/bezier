@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+
+
 #include "deCasteljau.h"
 
 vec2 RationalDeCasteljau(const vector<vec2> values, const vector<double> weights, int n, double t){

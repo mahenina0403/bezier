@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+
+
 #include <cstdlib>
 #include <iostream>
 #include <ctime>

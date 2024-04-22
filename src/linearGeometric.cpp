@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+
+
 #include "linearGeometric.h"
 
 vec2 linearGeometric(const vector<vec2> values, const vector<double> weights, int n, double t)
