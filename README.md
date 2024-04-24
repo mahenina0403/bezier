@@ -26,6 +26,7 @@ cmake --build .
 On Windows
 ```
 .\compare.exe              get the runtime on a random curve for 1000 evaluation points
+.\compare.exe -r [M]       get the runtime on a random curve for M evaluation points
 .\compare.exe -rd          get the runtime with respect to the degrees
 .\compare.exe -rs          get the runtime with respect to the number of evaluation points
 .\compare.exe -e [t]       get the relative errors at a give t
@@ -34,6 +35,7 @@ On Windows
 On Ubuntu
 ```
 ./compare                  get the runtime on a random curve for 1000 evaluation points
+./compare -r [M]           get the runtime on a random curve for M evaluation points
 ./compare -rd              get the runtime with respect to the degrees
 ./compare -rs              get the runtime with respect to the number of evaluation points
 ./compare -e [t]           get the relative errors at a give t
