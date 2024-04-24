@@ -1,4 +1,4 @@
-This is a compilation of algorithms that evaluate Bézier curves.
+This is a compilation of algorithms that evaluate rational Bézier curves.
 
 # Requirements:
 - mpfr
