@@ -340,7 +340,7 @@ int main(int argc, char *argv[]) {
 
 	double pi = Pi();
 
-	double t = 0.3;
+	double t = 0.5;
 
 	vector<vec2> f;
 	vector<double> beta;
@@ -468,18 +468,18 @@ int main(int argc, char *argv[]) {
 			beta[i] = (i%2)+1;
 
 			// example of unstable for UNI, RWB
-			// f[i] = vec2(sin(i*pi/(n+1))+1);
-			// beta[i] = 0.1;
-			// if (i==0 || i==n)
-			// 	beta[i] = 1;
+			f[i] = vec2(sin(i*pi/(n+1))+1);
+			beta[i] = 0.1;
+			if (i==0 || i==n)
+				beta[i] = 1;
 
 		}
 
 		filename = "relative-error.csv";
 		ofstream ed20(filename);
 		ed20.close();
-		for(int i=0; i<= 250; i++){
-			t = i/250.0;
+		for(int i=0; i<= 1000; i++){
+			t = i/1000.0;
 			ofstream ed20(filename, ios::app); 
 			compare_error(f,beta,n,t,ed20);
 			ed20.close();
@@ -515,6 +515,14 @@ int main(int argc, char *argv[]) {
 
 	}
 	else if (argc==3 && strcmp(argv[1],"-r")==0){
+		n = int(rand()*10)+3;
+		f.resize(n+1);
+		beta.resize(n+1);
+		for(int i=0; i<=n; i++){
+			f[i] = vec2(rand());
+			beta[i] = rand()+1;
+		}
+
 		sample = atoi(argv[2]);
 		ofstream sampletime("");
 		compare_runtime(f,beta,n,sample,sampletime,true);
