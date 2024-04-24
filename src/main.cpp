@@ -315,6 +315,18 @@ void compare_error(const vector<vec2> f,const vector<double> beta, int n, double
     sampletime << (exact_value - (mpreal)bff)/exact_value << endl;
 }
 
+void rcond(const vector<vec2> f,const vector<double> beta, int n, double t, ofstream& sampletime){
+
+	vector<vec2> WangBallPoints(n+1);
+	vector<double> WangBallWeights(n+1);
+	
+	convert_to_wang_ball(f,beta,&WangBallPoints,&WangBallWeights,n);
+	double rwb = rcond_WangBall2(WangBallPoints,WangBallWeights,t);
+
+    sampletime << rwb << ", ";
+}
+
+
 int main(int argc, char *argv[]) {
 	int my_mpreal_precision = 1024;
     mpreal::set_default_prec(my_mpreal_precision);
@@ -354,6 +366,13 @@ int main(int argc, char *argv[]) {
 	vector<int> degrees{3,5,7,10,13,15,17,20};
 
 	if (argc==1){
+		n = int(rand()*10)+3;
+		f.resize(n+1);
+		beta.resize(n+1);
+		for(int i=0; i<=n; i++){
+			f[i] = vec2(rand());
+			beta[i] = rand()+1;
+		}
 		ofstream sampletime("");
 		compare_runtime(f,beta,n,1000,sampletime,true);
 	}
@@ -461,8 +480,36 @@ int main(int argc, char *argv[]) {
 		ed20.close();
 		for(int i=0; i<= 250; i++){
 			t = i/250.0;
-			ofstream ed20(filename, ios::app);
+			ofstream ed20(filename, ios::app); 
 			compare_error(f,beta,n,t,ed20);
+			ed20.close();
+		}
+
+	}
+	else if (argc==2 && strcmp(argv[1],"-c")==0){
+		n = 50;
+		f.resize(n+1);
+		beta.resize(n+1);
+		for(int i=0; i<=n; i++){
+			// example of unstable for UNI, RWB, RBF
+			f[i] = vec2(i*100)+vec2(1,0);
+			beta[i] = (i%2)+1;
+
+			// example of unstable for UNI, RWB
+			// f[i] = vec2(sin(i*pi/(n+1))+1);
+			// beta[i] = 0.1;
+			// if (i==0 || i==n)
+			// 	beta[i] = 1;
+
+		}
+
+		filename = "r-cond-Wang-Ball.csv";
+		ofstream ed20(filename);
+		ed20.close();
+		for(int i=0; i<= 1000; i++){
+			t = i/1000.0;
+			ofstream ed20(filename, ios::app); 
+			rcond(f,beta,n,t,ed20);
 			ed20.close();
 		}
 
