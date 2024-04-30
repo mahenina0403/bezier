@@ -385,6 +385,8 @@ int main(int argc, char *argv[]) {
 	int my_mpreal_precision = 1024;
     mpreal::set_default_prec(my_mpreal_precision);
 
+    srand(static_cast<unsigned int>(time(nullptr)));
+
 	int n;
 	int sample = 100;
 	string filename = "result.csv";
@@ -414,7 +416,6 @@ int main(int argc, char *argv[]) {
 	f.resize(n+1);
 	beta.resize(n+1);
 	for(int i=0; i<=n; i++){
-		// example of unstable for UNI, RWB, RBF
 		beta[i] = 1;
 	}
 	f[0] = vec2(10, -100);
@@ -423,18 +424,24 @@ int main(int argc, char *argv[]) {
 	f[3] = vec2(40, 101);
 	f[4] = vec2(50, 101);
 
-	// vector<int> S{1, 10, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750};
 	vector<int> S{1, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750};
 	vector<int> degrees{3,5,7,10,13,15,17,20};
 
 	if (argc==1){
-		n = int(rand()*10)+3;
+		n = int(rand()%7)+3;
 		f.resize(n+1);
 		beta.resize(n+1);
 		for(int i=0; i<=n; i++){
-			f[i] = vec2(rand());
-			beta[i] = rand()+1;
+			f[i] = vec2(rand()%100, rand()%100);
+			beta[i] = rand()%3+1;
 		}
+		cout << "This s a runtime comparison for 1000 evaluation points of the following data" << endl;
+		cout << "n" << setw(7) << n << endl;
+		cout << "Px" << setw(7) << "Py" << setw(7) << "w"<<endl;
+		for(int i=0; i<=n; i++){
+			cout << f[i].x() << setw(7) << f[i].y() << setw(7) << beta[i]<<endl;
+		}
+		cout << endl;
 		ofstream sampletime("");
 		compare_runtime(f,beta,n,1000,sampletime,true);
 	}
@@ -447,7 +454,6 @@ int main(int argc, char *argv[]) {
 			f.resize(n+1);
 			beta.resize(n+1);
 			for(int i=0; i<=n; i++){
-				// f[i] = vec2(i*100+1, sin(i*pi/(n))+1);
 				f[i] = 100*i*vec2(1)+vec2(1);
 				beta[i] = (i%2)+1;
 			}
@@ -461,7 +467,6 @@ int main(int argc, char *argv[]) {
 		f.resize(n+1);
 		beta.resize(n+1);
 		for(int i=0; i<=n; i++){
-			// example of unstable for UNI, RWB, RBF
 			f[i] = 100*i*vec2(1)+vec2(1);
 			beta[i] = (i%2)+1;
 		}
