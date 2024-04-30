@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) [2024] [Chiara Fuda, Andriamahenina Ramanantoanina]
 
 
 #include "wang.h"
@@ -181,93 +181,6 @@ vec2 rationalWangBall(const vector<vec2> WB, const vector<double> Ww, double t){
 	return W;
 }
 
-double rcond_WangBall(const vector<vec2> WB, const vector<double> Ww, double t){
-
-	int n = (WB).size()-1;
-
-	if (n < 2){
-		cout << "Error: Wang-Ball curve needs 3 points at least" << endl;
-		exit(1);
-	}
-	vector<vec2> N(n+1);
-	vector<double> D(n+1);
-	for(int i=0;i<n+1;i++){
-		N[i] = (WB)[i];
-		D[i] = (Ww)[i];
-	}
-
-	double t1 = 1 - t;
-
-	int k = n;
-	int jump = 0;
-	while (k>2){
-		if (k%2==1){
-			int n1 = (k-1)/2;
-			int n2 = (k+1)/2;
-
-			double a = t1*D[n1];
-			double b = t*D[n2];
-			if (jump == 0)
-				jump = n2+1;
-			
-			D[n1] = a+b;
-			N[n1] = (a*N[n1]+b*N[n2])/D[n1];
-			
-		}
-		else{
-			int n2 = k/2;
-			if (jump==0)
-				jump=n2+1;
-
-			double a = t1*D[n2-1];
-			double b = t*D[n2];
-			double c = t1*D[n2];
-			double d = t*D[jump];
-	
-			D[n2-1] = a+b;
-			D[n2] = c+d;
-	
-			N[n2-1] = (a*N[n2-1]+b*N[n2])/D[n2-1];
-			N[n2] = (c*N[n2]+d*N[jump])/D[n2];
-
-			jump++;
-			
-		}
-		k--;
-	}
-
-	double a = t1*D[0];
-	double b = t*D[1];
-	double c = t1*D[1];
-	double d = t*D[n];
-
-	double wq = a + b;
-	double wr = c + d;
-
-	double e = t1*wq;
-	double f = t*wr;
-	double ww = e + f;
-
-	vec2 Q = (a*N[0] + b*N[1])/wq;
-	vec2 V = (c*N[1] + d*N[n])/wr;
-	vec2 W = (e*Q + f*V);
-
-	double max1 = 0;
-	double max2 = 0;
-	d = 0;
-	for (int i=0; i<n; i++){
-		d = abs(WB[i].x()*Ww[i]);
-		if (d > max1) max1 = d;
-	}
-
-	for (int i=1; i<=n; i++){
-		d = abs(WB[i].x()*Ww[i]);
-		if (d > max2) max2 = d;
-	}
-
-	return (max1*(1-t)+t*max2)/abs(W.x());
-}
-
 double Wang_Basis(int n,int i, double t){
 	int fn2 = floor(n/2);
 	int cn2 = ceil(n/2);
@@ -279,22 +192,22 @@ double Wang_Basis(int n,int i, double t){
 	else if (i==cn2)
 		return pow(2*(1-t),fn2)*pow(t,cn2);
 	else
-		return Wang_Basis(n,n-i,t);
+		return Wang_Basis(n,n-i,1-t);
 }
 
-double rcond_WangBall2(const vector<vec2> WB, const vector<double> Ww, double t){
+vec2 rcond_WangBall(const vector<vec2> WB, const vector<double> Ww, double t){
 
 	int n = (WB).size()-1;
 
-	double N = 0;
-	double d = 0;
-	double tmp;
+	vec2 N(0);
+	vec2 D(0);
+	vec2 tmp;
 	for (int i=0; i<= n; i++){
-		tmp = Wang_Basis(n,i,t)*WB[i].x()*Ww[i];
-
-		N = N + abs(tmp);
-		d = d + tmp;
+		tmp = WB[i] * Wang_Basis(n,i,t)*Ww[i];
+		N = N + tmp.abs();
+		D = D + tmp;
 	}
 
-	return N/abs(d);
+	D = D.abs();
+	return N%D;
 }

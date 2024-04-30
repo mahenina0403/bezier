@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) [2024] [Chiara Fuda, Andriamahenina Ramanantoanina]
 
 
 #include <vector>
@@ -10,3 +10,4 @@ using namespace std;
 
 vec2 RationalDeCasteljau(const vector<vec2> values, const vector<double> weights, int n, double t);
 vec2 FarinRationalDeCasteljau(const vector<vec2> values, const vector<double> weights, int n, double t);
+vec2 rcond_rdc(const vector<vec2> values, const vector<double> weights, int n, double t);

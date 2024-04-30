@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) [2024] [Chiara Fuda, Andriamahenina Ramanantoanina]
 
 
 #include "barycentric.h"
@@ -140,4 +140,23 @@ vector<vec2> barycentric_2(const vector<vec2> V, const vector<double> W, const v
 		d2 = d2 + u;
 	}
 	return {N1/d1, N2/d2};
+}
+
+vec2 rcond_barycentric(const vector<vec2> V, const vector<double> W, const vector<double> T, int n, double t){
+//evaluation
+	vec2 N = vec2(0);
+	vec2 D = vec2(0);
+	double r;
+	vec2 R = vec2(0);
+
+	for (int i=0; i<=n; i++) {
+		r = t-T[i];
+		if (abs(r)<2e-3)
+			return 1;
+		R = W[i]*V[i]/r;
+		N = N + R.abs();
+		D = D + R;
+	}
+
+	return N%D.abs();
 }

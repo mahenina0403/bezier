@@ -4,6 +4,18 @@
 
 #include "main.h"
 
+void to_of(vec2 p, ofstream& of, double eol=0){
+	of << p.x() << "'" << p.y();
+	if (eol) of << endl;
+	else of << ", ";
+}
+
+void to_of(mpreal x, mpreal y, ofstream& of, double eol=0){
+	of << x << "'" << y;
+	if (eol) of << endl;
+	else of << ",";
+}
+
 void compare_runtime(const vector<vec2> f, const vector<double> beta, int n, int sample, ofstream& sampletime, double show=false){
 	double t;
 	int i;
@@ -225,7 +237,7 @@ void compare_values(const vector<vec2> f,const vector<double> beta, int n, doubl
 }
 
 
-void compare_error(const vector<vec2> f,const vector<double> beta, int n, double t, ofstream& sampletime){
+void compare_error(const vector<vec2> f,const vector<double> beta, int n, double t, ofstream& sampletime, double show=false){
 
 	vector<vec2> g(n+1);
 	vector<double> alpha(n+1);
@@ -233,35 +245,40 @@ void compare_error(const vector<vec2> f,const vector<double> beta, int n, double
 	gen_VS_data(f, beta, &g, &alpha, n);
 
 	vector<double> fx(n+1);
-	for(int i=0; i<=n; i++)
+	vector<double> fy(n+1);
+	for(int i=0; i<=n; i++){
 		fx[i] = f[i].x();
+		fy[i] = f[i].y();
+	}
 
-	mpreal exact_value = RationalDeCasteljau(fx,beta,n,t);
-	// cout << RationalDeCasteljau(fx,beta,n,t) - FarinRationalDeCasteljau(fx,beta,n,t) << endl;
-
-	double rdc = RationalDeCasteljau(f,beta,n,t).x();
-	double fdc = FarinRationalDeCasteljau(f,beta,n,t).x();
-	double rvs = RationalVS2(g,alpha,n,t).x();
-	double rhb = RationalHornBez(g,alpha,n,t).x();
-	double ltg = linearGeometric(f,beta,n,t).x();
+	mpreal exact_valuex = RationalDeCasteljau(fx,beta,n,t);
+	mpreal exact_valuey = RationalDeCasteljau(fy,beta,n,t);
+	
+	mpreal exact_x = abs(exact_valuex);
+	mpreal exact_y = abs(exact_valuey);
+	
+	vec2 rdc = RationalDeCasteljau(f,beta,n,t);
+	vec2 fdc = FarinRationalDeCasteljau(f,beta,n,t);
+	vec2 rvs = RationalVS2(g,alpha,n,t);
+	vec2 rhb = RationalHornBez(g,alpha,n,t);
+	vec2 ltg = linearGeometric(f,beta,n,t);
 
 	vector<double> T;
 	
 	T = compute_nodes(n,CHEBYSHEV);
 	get_data(f,beta,T,n,&g,&alpha,CHEBYSHEV);
-	auto u = barycentric_2(g,alpha,T,n,t);
-	double che = u[0].x();
+	vec2 che = barycentric(g,alpha,T,n,t);
+	
 	
 	T = compute_nodes(n,UNIFORM);
 	get_data(f,beta,T,n,&g,&alpha,UNIFORM);
-	u = barycentric_2(g,alpha,T,n,t);
-	double uni = u[0].x();
-
+	vec2 uni = barycentric(g,alpha,T,n,t);
+	
 	vector<vec2> WangBallPoints(n+1);
 	vector<double> WangBallWeights(n+1);
 	
 	convert_to_wang_ball(f,beta,&WangBallPoints,&WangBallWeights,n);
-	double rwb = rationalWangBall(WangBallPoints,WangBallWeights,t).x();
+	vec2 rwb = rationalWangBall(WangBallPoints,WangBallWeights,t);
 
 	vector<complex<double>> x(n+1);
 	vector<complex<double>> y(n+1);
@@ -279,51 +296,88 @@ void compare_error(const vector<vec2> f,const vector<double> beta, int n, double
 	z = toFourier(z,n);
 
 	r = roots_of_unity(n);
-	u = BernsteinFourrier_2(x,y,z,r,n,t);
-	double bff = u[0].x();
+	vec2 rbf = BernsteinFourrier(x,y,z,r,n,t);
 	
+	mpreal X;
+	mpreal Y;
 
-	cout.precision(5);
-    cout << setw(50) << left << "DeCasteljau:";
-    cout << (exact_value - (mpreal)rdc)/exact_value << endl;
-    cout << setw(50) << "FarinDeCasteljau: ";
-    cout << (exact_value - (mpreal)fdc)/exact_value << endl;
-    cout << setw(50) << "VS:";
-    cout << (exact_value - (mpreal)rvs)/exact_value << endl;
-    cout << setw(50) << "HornBez:";
-    cout << (exact_value - (mpreal)rhb)/exact_value << endl;
-    cout << setw(50) << "linearGeometric: ";
-    cout << (exact_value - (mpreal)ltg)/exact_value << endl;
-    cout << setw(50) << "barycentric (UNIFORM):";
-    cout << (exact_value - (mpreal)uni)/exact_value << endl;
-    cout << setw(50) << "barycentric (CHEBYSHEV):";
-    cout << (exact_value - (mpreal)che)/exact_value << endl;
-    cout << setw(50) << "Wang-Ball:";
-    cout << (exact_value - (mpreal)rwb)/exact_value << endl;
-    cout << setw(50) << "Bernstein-Fourier:";
-    cout << (exact_value - (mpreal)bff)/exact_value << endl;
-
-
-    sampletime << (exact_value - (mpreal)rdc)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)fdc)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)rvs)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)rhb)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)ltg)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)che)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)uni)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)rwb)/exact_value << ", ";
-    sampletime << (exact_value - (mpreal)bff)/exact_value << endl;
+	// cout << exact_y << endl;
+    X = abs(exact_valuex - (mpreal)rdc.x())/exact_x; Y= abs(exact_valuey - (mpreal)rdc.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)fdc.x())/exact_x; Y= abs(exact_valuey - (mpreal)fdc.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)rvs.x())/exact_x; Y= abs(exact_valuey - (mpreal)rvs.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)rhb.x())/exact_x; Y= abs(exact_valuey - (mpreal)rhb.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)ltg.x())/exact_x; Y= abs(exact_valuey - (mpreal)ltg.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)che.x())/exact_x; Y= abs(exact_valuey - (mpreal)che.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)uni.x())/exact_x; Y= abs(exact_valuey - (mpreal)uni.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)rwb.x())/exact_x; Y= abs(exact_valuey - (mpreal)rwb.y())/exact_y;
+    to_of(X,Y,sampletime);
+    X = abs(exact_valuex - (mpreal)rbf.x())/exact_x; Y= abs(exact_valuey - (mpreal)rbf.y())/exact_y;
+	to_of(X,Y,sampletime,true);
+    
+    if (show){
+    	cout.precision(5);
+    	X = abs(exact_valuex - (mpreal)rdc.x())/exact_x; Y= abs(exact_valuey - (mpreal)rdc.y())/exact_y;
+    	cout << setw(6) << left << "rdc:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)fdc.x())/exact_x; Y= abs(exact_valuey - (mpreal)fdc.y())/exact_y;
+	    cout << setw(6) << left << "fdc:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)rvs.x())/exact_x; Y= abs(exact_valuey - (mpreal)rvs.y())/exact_y;
+	    cout << setw(6) << left << "rvs:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)rhb.x())/exact_x; Y= abs(exact_valuey - (mpreal)rhb.y())/exact_y;
+	    cout << setw(6) << left << "rhb:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)ltg.x())/exact_x; Y= abs(exact_valuey - (mpreal)ltg.y())/exact_y;
+	    cout << setw(6) << left << "ltg:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)che.x())/exact_x; Y= abs(exact_valuey - (mpreal)che.y())/exact_y;
+	    cout << setw(6) << left << "che:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)uni.x())/exact_x; Y= abs(exact_valuey - (mpreal)uni.y())/exact_y;
+	    cout << setw(6) << left << "uni:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)rwb.x())/exact_x; Y= abs(exact_valuey - (mpreal)rwb.y())/exact_y;
+	    cout << setw(6) << left << "rwb:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+	    X = abs(exact_valuex - (mpreal)rbf.x())/exact_x; Y= abs(exact_valuey - (mpreal)rbf.y())/exact_y;
+		cout << setw(6) << left << "rbf:";
+	    cout << setw(13) << X << setw(20) << Y << endl;
+    }   
 }
 
 void rcond(const vector<vec2> f,const vector<double> beta, int n, double t, ofstream& sampletime){
+	vector<vec2> g(n+1);
+	vector<double> alpha(n+1);
+
+	vec2 u = rcond_rdc(f,beta,n,t);
+	to_of(u,sampletime);
+
+	vector<double> T;
+	
+	T = compute_nodes(n,CHEBYSHEV);
+	get_data(f,beta,T,n,&g,&alpha,CHEBYSHEV);
+	u = rcond_barycentric(g,alpha,T,n,t);
+	to_of(u,sampletime);
+
+	T = compute_nodes(n,UNIFORM);
+	get_data(f,beta,T,n,&g,&alpha,UNIFORM);
+	u = rcond_barycentric(g,alpha,T,n,t);
+	to_of(u,sampletime);
 
 	vector<vec2> WangBallPoints(n+1);
 	vector<double> WangBallWeights(n+1);
-	
 	convert_to_wang_ball(f,beta,&WangBallPoints,&WangBallWeights,n);
-	double rwb = rcond_WangBall2(WangBallPoints,WangBallWeights,t);
+	u = rcond_WangBall(WangBallPoints,WangBallWeights,t);
+	to_of(u,sampletime,true);
 
-    sampletime << rwb << ", ";
 }
 
 
@@ -345,24 +399,32 @@ int main(int argc, char *argv[]) {
 	vector<vec2> f;
 	vector<double> beta;
 
-	n = 20;
+
+	n = 50;
 	f.resize(n+1);
 	beta.resize(n+1);
 	for(int i=0; i<=n; i++){
-		f[i] = vec2(i*100)+vec2(1,0);
-		// f[i] = vec2(rand()%100+1);
-		// f[i] = vec2(abs(7.5-i));
+		// example of unstable for UNI, RWB, RBF
+		f[i] = vec2(1, sin(i*pi/(n))+1);
+		if (i<10 || i>n-10) f[i].x() = pow(10,6);
 		beta[i] = (i%2)+1;
-
-		// Wang-Ball unstable
-		f[i] = vec2(cos(i*pi/(n+1)), sin(i*pi/(n+1)));
-		beta[i] = 0.01;
-		if (i==0 || i==n)
-			beta[i] = 1;
-
 	}
 
-	vector<int> S{10, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750};
+	n = 4;
+	f.resize(n+1);
+	beta.resize(n+1);
+	for(int i=0; i<=n; i++){
+		// example of unstable for UNI, RWB, RBF
+		beta[i] = 1;
+	}
+	f[0] = vec2(10, -100);
+	f[1] = vec2(20, 200);
+	f[2] = vec2(30, -200);
+	f[3] = vec2(40, 101);
+	f[4] = vec2(50, 101);
+
+	// vector<int> S{1, 10, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750};
+	vector<int> S{1, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750};
 	vector<int> degrees{3,5,7,10,13,15,17,20};
 
 	if (argc==1){
@@ -380,12 +442,13 @@ int main(int argc, char *argv[]) {
 		filename = "runtime-degree.csv";
 		ofstream sampletime(filename);
 		sampletime.close();
-		for (const int &s: degrees){
+		for (int s=3; s<=20; s++){
 			n = s;
 			f.resize(n+1);
 			beta.resize(n+1);
 			for(int i=0; i<=n; i++){
-				f[i] = vec2(i*100)+vec2(1,0);
+				// f[i] = vec2(i*100+1, sin(i*pi/(n))+1);
+				f[i] = 100*i*vec2(1)+vec2(1);
 				beta[i] = (i%2)+1;
 			}
 			ofstream sampletime(filename, ios::app);
@@ -394,53 +457,15 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	else if (argc==2 && strcmp(argv[1],"-rs")==0){
-		n = 5;
-		f.resize(n+1);
-		beta.resize(n+1);
-		for(int i=0; i<=n; i++){
-			f[i] = vec2(i*100)+vec2(1,0);
-			// f[i] = vec2(rand()%100+1);
-			beta[i] = (i%2)+1;
-		}
-
-		filename = "runtime-sample-deg-5.csv";
-		ofstream rsd3(filename);
-		rsd3.close();
-		for (const auto& s: S){
-			ofstream rsd3(filename, ios::app);
-			compare_runtime(f,beta,n,s,rsd3);
-			rsd3.close();
-		}
-
-		n = 10;
-		f.resize(n+1);
-		beta.resize(n+1);
-		for(int i=0; i<=n; i++){
-			f[i] = vec2(i*100)+vec2(1,0);
-			// f[i] = vec2(rand()%100+1);
-			beta[i] = (i%2)+1;
-		}
-
-		filename = "runtime-sample-deg-13.csv";
-		ofstream rsd13(filename);
-		rsd13.close();
-		for (const auto& s: S){
-			ofstream rsd13(filename, ios::app);
-			compare_runtime(f,beta,n,s,rsd13);
-			rsd13.close();
-		}
-
 		n = 20;
 		f.resize(n+1);
 		beta.resize(n+1);
 		for(int i=0; i<=n; i++){
-			// f[i] = vec2(i*100)+vec2(1,0);
-			f[i] = vec2(i*100);
-			// f[i] = vec2(rand()%100+1);
+			// example of unstable for UNI, RWB, RBF
+			f[i] = 100*i*vec2(1)+vec2(1);
 			beta[i] = (i%2)+1;
 		}
-	
-		filename = "runtime-sample-deg-20.csv";
+		filename = "runtime-sample.csv";
 		ofstream rsd20(filename);
 		rsd20.close();
 		for (const auto& s: S){
@@ -449,68 +474,35 @@ int main(int argc, char *argv[]) {
 			rsd20.close();
 		}
 	}
+	else if (argc==2 && strcmp(argv[1],"-e")==0){
+		ofstream x("relative-error.csv");
+		x.close();
+	
+		for(int i=0; i<= 1000; i++){
+			t = i/1000.0;
+			ofstream x("relative-error.csv", ios::app); 
+			compare_error(f,beta,n,t,x);
+			x.close();
+		}
+
+	}
 	else if (argc==3 && strcmp(argv[1],"-e")==0){
 		t = atof(argv[2]);
-		ofstream sampletime("");
-		compare_error(f,beta,n,t,sampletime);
-	}
-	else if (argc==3 && strcmp(argv[1],"-v")==0){
-		t = atof(argv[2]);
-		compare_values(f,beta,n,t);
-	}
-	else if (argc==2 && strcmp(argv[1],"-e")==0){
-		n = 50;
-		f.resize(n+1);
-		beta.resize(n+1);
-		for(int i=0; i<=n; i++){
-			// example of unstable for UNI, RWB, RBF
-			f[i] = vec2(i*100)+vec2(1,0);
-			beta[i] = (i%2)+1;
-
-			// example of unstable for UNI, RWB
-			f[i] = vec2(sin(i*pi/(n+1))+1);
-			beta[i] = 0.1;
-			if (i==0 || i==n)
-				beta[i] = 1;
-
-		}
-
-		filename = "relative-error.csv";
-		ofstream ed20(filename);
-		ed20.close();
-		for(int i=0; i<= 1000; i++){
-			t = i/1000.0;
-			ofstream ed20(filename, ios::app); 
-			compare_error(f,beta,n,t,ed20);
-			ed20.close();
-		}
-
+		ofstream x("");
+		x.close();
+	
+		compare_error(f,beta,n,t,x,true);
+		x.close();
 	}
 	else if (argc==2 && strcmp(argv[1],"-c")==0){
-		n = 50;
-		f.resize(n+1);
-		beta.resize(n+1);
-		for(int i=0; i<=n; i++){
-			// example of unstable for UNI, RWB, RBF
-			f[i] = vec2(i*100)+vec2(1,0);
-			beta[i] = (i%2)+1;
-
-			// example of unstable for UNI, RWB
-			// f[i] = vec2(sin(i*pi/(n+1))+1);
-			// beta[i] = 0.1;
-			// if (i==0 || i==n)
-			// 	beta[i] = 1;
-
-		}
-
-		filename = "r-cond-Wang-Ball.csv";
-		ofstream ed20(filename);
-		ed20.close();
+		ofstream x("rcond.csv");
+		x.close();
+	
 		for(int i=0; i<= 1000; i++){
 			t = i/1000.0;
-			ofstream ed20(filename, ios::app); 
-			rcond(f,beta,n,t,ed20);
-			ed20.close();
+			ofstream x("rcond.csv", ios::app); 
+			rcond(f,beta,n,t,x);
+			x.close();
 		}
 
 	}

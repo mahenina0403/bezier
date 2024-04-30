@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-// Copyright (c) [2024] [Fuda Chiara, Andriamahenina Ramanantoanina]
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) [2024] [Chiara Fuda, Andriamahenina Ramanantoanina]
 
 
 #include "deCasteljau.h"
@@ -46,4 +46,23 @@ vec2 FarinRationalDeCasteljau(const vector<vec2> values, const vector<double> we
 		}
 	}
 	return R[0];
+}
+
+vec2 rcond_rdc(const vector<vec2> values, const vector<double> weights, int n, double t){
+	vector<vec2> num_abs(n+1);
+	vector<vec2> num(n+1);
+	for(int i=0; i<=n; i++){
+        num[i] = weights[i]*values[i];
+        num_abs[i] = num[i].abs();
+	}
+	double s  = 1 - t;
+
+    for (int j=1; j<=n; j++){
+		for (int i=0; i<=n-j; i++){
+			num[i] = s*num[i] + t*num[i+1];
+			num_abs[i] = s*num_abs[i] + t*num_abs[i+1];
+		}
+	}
+
+	return num_abs[0]%num[0].abs();
 }

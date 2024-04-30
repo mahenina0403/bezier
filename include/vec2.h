@@ -68,6 +68,11 @@ public:
     return vec2( _x * w, _y * w );
   };
 
+  // pointwise multiplication
+  // const vec2 operator ^ ( const vec2& w ) const {
+  //   return vec2( _x * w.x(), _y * w.y() );
+  // };
+
   friend const vec2 operator * ( const double w, const vec2& p ) {
     return p * w;
   };
@@ -80,6 +85,11 @@ public:
   // division by a scalar
   const vec2 operator / ( const double w ) const {
     return vec2( _x / w, _y / w );
+  };
+
+  // pointwise division
+  const vec2 operator % ( const vec2& w ) const {
+    return vec2( _x / w.x(), _y / w.y() );
   };
 
   friend const vec2 operator / ( const double w, const vec2& p ) {
@@ -101,6 +111,11 @@ public:
     return sqrt( _x * _x + _y * _y );
   };
 
+  // abs
+  const vec2 abs() const{
+    return vec2(std::abs(_x),std::abs(_y));
+  }
+  
   // print the vector
   friend std::ostream& operator << ( std::ostream& s, const vec2& p )  {    
     s  << p.x() << " " << p.y();
